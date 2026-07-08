@@ -1,0 +1,346 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/* ===== YOUR CUSTOM COLOR PALETTES ===== */
+:root {
+  /* Ink Black */
+  --color-ink-black-50: rgb(235 242 249);
+  --color-ink-black-100: rgb(216 229 243);
+  --color-ink-black-200: rgb(177 203 231);
+  --color-ink-black-300: rgb(138 177 219);
+  --color-ink-black-400: rgb(99 151 207);
+  --color-ink-black-500: rgb(60 125 195);
+  --color-ink-black-600: rgb(48 100 156);
+  --color-ink-black-700: rgb(36 75 117);
+  --color-ink-black-800: rgb(24 50 78);
+  --color-ink-black-900: rgb(12 25 39);
+  --color-ink-black-950: rgb(8 18 27);
+
+  /* Prussian Blue */
+  --color-prussian-blue-50: rgb(238 241 247);
+  --color-prussian-blue-100: rgb(220 227 239);
+  --color-prussian-blue-200: rgb(185 198 223);
+  --color-prussian-blue-300: rgb(150 170 207);
+  --color-prussian-blue-400: rgb(115 142 191);
+  --color-prussian-blue-500: rgb(80 113 175);
+  --color-prussian-blue-600: rgb(64 91 140);
+  --color-prussian-blue-700: rgb(48 68 105);
+  --color-prussian-blue-800: rgb(32 45 70);
+  --color-prussian-blue-900: rgb(16 23 35);
+  --color-prussian-blue-950: rgb(11 16 24);
+
+  /* Dusk Blue */
+  --color-dusk-blue-50: rgb(239 242 246);
+  --color-dusk-blue-100: rgb(222 229 237);
+  --color-dusk-blue-200: rgb(189 203 219);
+  --color-dusk-blue-300: rgb(156 177 201);
+  --color-dusk-blue-400: rgb(123 151 183);
+  --color-dusk-blue-500: rgb(91 125 164);
+  --color-dusk-blue-600: rgb(72 100 132);
+  --color-dusk-blue-700: rgb(54 75 99);
+  --color-dusk-blue-800: rgb(36 50 66);
+  --color-dusk-blue-900: rgb(18 25 33);
+  --color-dusk-blue-950: rgb(13 18 23);
+
+  /* Dusty Denim */
+  --color-dusty-denim-50: rgb(239 242 245);
+  --color-dusty-denim-100: rgb(224 229 235);
+  --color-dusty-denim-200: rgb(192 202 216);
+  --color-dusty-denim-300: rgb(161 176 196);
+  --color-dusty-denim-400: rgb(130 150 176);
+  --color-dusty-denim-500: rgb(98 124 157);
+  --color-dusty-denim-600: rgb(79 99 125);
+  --color-dusty-denim-700: rgb(59 74 94);
+  --color-dusty-denim-800: rgb(39 49 63);
+  --color-dusty-denim-900: rgb(20 25 31);
+  --color-dusty-denim-950: rgb(14 17 22);
+
+  /* Alabaster Grey */
+  --color-alabaster-grey-50: rgb(243 243 241);
+  --color-alabaster-grey-100: rgb(230 231 228);
+  --color-alabaster-grey-200: rgb(206 207 201);
+  --color-alabaster-grey-300: rgb(181 183 174);
+  --color-alabaster-grey-400: rgb(156 159 147);
+  --color-alabaster-grey-500: rgb(131 135 120);
+  --color-alabaster-grey-600: rgb(105 108 96);
+  --color-alabaster-grey-700: rgb(79 81 72);
+  --color-alabaster-grey-800: rgb(53 54 48);
+  --color-alabaster-grey-900: rgb(26 27 24);
+  --color-alabaster-grey-950: rgb(18 19 17);
+}
+
+@theme inline {
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  
+  /* ===== YOUR CUSTOM COLORS ADDED TO TAILWIND ===== */
+  --color-ink-black-50: var(--color-ink-black-50);
+  --color-ink-black-100: var(--color-ink-black-100);
+  --color-ink-black-200: var(--color-ink-black-200);
+  --color-ink-black-300: var(--color-ink-black-300);
+  --color-ink-black-400: var(--color-ink-black-400);
+  --color-ink-black-500: var(--color-ink-black-500);
+  --color-ink-black-600: var(--color-ink-black-600);
+  --color-ink-black-700: var(--color-ink-black-700);
+  --color-ink-black-800: var(--color-ink-black-800);
+  --color-ink-black-900: var(--color-ink-black-900);
+  --color-ink-black-950: var(--color-ink-black-950);
+  
+  --color-prussian-blue-50: var(--color-prussian-blue-50);
+  --color-prussian-blue-100: var(--color-prussian-blue-100);
+  --color-prussian-blue-200: var(--color-prussian-blue-200);
+  --color-prussian-blue-300: var(--color-prussian-blue-300);
+  --color-prussian-blue-400: var(--color-prussian-blue-400);
+  --color-prussian-blue-500: var(--color-prussian-blue-500);
+  --color-prussian-blue-600: var(--color-prussian-blue-600);
+  --color-prussian-blue-700: var(--color-prussian-blue-700);
+  --color-prussian-blue-800: var(--color-prussian-blue-800);
+  --color-prussian-blue-900: var(--color-prussian-blue-900);
+  --color-prussian-blue-950: var(--color-prussian-blue-950);
+  
+  --color-dusk-blue-50: var(--color-dusk-blue-50);
+  --color-dusk-blue-100: var(--color-dusk-blue-100);
+  --color-dusk-blue-200: var(--color-dusk-blue-200);
+  --color-dusk-blue-300: var(--color-dusk-blue-300);
+  --color-dusk-blue-400: var(--color-dusk-blue-400);
+  --color-dusk-blue-500: var(--color-dusk-blue-500);
+  --color-dusk-blue-600: var(--color-dusk-blue-600);
+  --color-dusk-blue-700: var(--color-dusk-blue-700);
+  --color-dusk-blue-800: var(--color-dusk-blue-800);
+  --color-dusk-blue-900: var(--color-dusk-blue-900);
+  --color-dusk-blue-950: var(--color-dusk-blue-950);
+  
+  --color-dusty-denim-50: var(--color-dusty-denim-50);
+  --color-dusty-denim-100: var(--color-dusty-denim-100);
+  --color-dusty-denim-200: var(--color-dusty-denim-200);
+  --color-dusty-denim-300: var(--color-dusty-denim-300);
+  --color-dusty-denim-400: var(--color-dusty-denim-400);
+  --color-dusty-denim-500: var(--color-dusty-denim-500);
+  --color-dusty-denim-600: var(--color-dusty-denim-600);
+  --color-dusty-denim-700: var(--color-dusty-denim-700);
+  --color-dusty-denim-800: var(--color-dusty-denim-800);
+  --color-dusty-denim-900: var(--color-dusty-denim-900);
+  --color-dusty-denim-950: var(--color-dusty-denim-950);
+  
+  --color-alabaster-grey-50: var(--color-alabaster-grey-50);
+  --color-alabaster-grey-100: var(--color-alabaster-grey-100);
+  --color-alabaster-grey-200: var(--color-alabaster-grey-200);
+  --color-alabaster-grey-300: var(--color-alabaster-grey-300);
+  --color-alabaster-grey-400: var(--color-alabaster-grey-400);
+  --color-alabaster-grey-500: var(--color-alabaster-grey-500);
+  --color-alabaster-grey-600: var(--color-alabaster-grey-600);
+  --color-alabaster-grey-700: var(--color-alabaster-grey-700);
+  --color-alabaster-grey-800: var(--color-alabaster-grey-800);
+  --color-alabaster-grey-900: var(--color-alabaster-grey-900);
+  --color-alabaster-grey-950: var(--color-alabaster-grey-950);
+  
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ===== LIGHT THEME - USING YOUR CUSTOM COLORS ===== */
+:root {
+  color-scheme: light;
+  
+  /* Backgrounds - Using Alabaster Grey */
+  --background: var(--color-alabaster-grey-50);
+  --card: var(--color-alabaster-grey-50);
+  --popover: var(--color-alabaster-grey-50);
+  --sidebar: var(--color-alabaster-grey-50);
+  
+  /* Foregrounds - Using Ink Black */
+  --foreground: var(--color-ink-black-900);
+  --card-foreground: var(--color-ink-black-900);
+  --popover-foreground: var(--color-ink-black-900);
+  --sidebar-foreground: var(--color-ink-black-900);
+  
+  /* Primary - Using Prussian Blue */
+  --primary: var(--color-prussian-blue-500);
+  --primary-foreground: var(--color-alabaster-grey-50);
+  --sidebar-primary: var(--color-prussian-blue-600);
+  --sidebar-primary-foreground: var(--color-alabaster-grey-50);
+  
+  /* Secondary - Using Dusk Blue */
+  --secondary: var(--color-dusk-blue-200);
+  --secondary-foreground: var(--color-ink-black-800);
+  
+  /* Muted - Using Dusty Denim */
+  --muted: var(--color-dusty-denim-100);
+  --muted-foreground: var(--color-dusty-denim-600);
+  
+  /* Accent - Using Prussian Blue (lighter) */
+  --accent: var(--color-prussian-blue-100);
+  --accent-foreground: var(--color-prussian-blue-800);
+  --sidebar-accent: var(--color-prussian-blue-100);
+  --sidebar-accent-foreground: var(--color-prussian-blue-800);
+  
+  /* Destructive - Using Ink Black (darker) */
+  --destructive: var(--color-ink-black-700);
+  
+  /* Borders - Using Alabaster Grey */
+  --border: var(--color-alabaster-grey-200);
+  --input: var(--color-alabaster-grey-200);
+  --sidebar-border: var(--color-alabaster-grey-200);
+  
+  /* Ring - Using Prussian Blue */
+  --ring: var(--color-prussian-blue-400);
+  --sidebar-ring: var(--color-prussian-blue-400);
+  
+  /* Charts - Using your palettes */
+  --chart-1: var(--color-prussian-blue-500);
+  --chart-2: var(--color-dusk-blue-500);
+  --chart-3: var(--color-dusty-denim-500);
+  --chart-4: var(--color-ink-black-500);
+  --chart-5: var(--color-alabaster-grey-500);
+  
+  --radius: 0.625rem;
+}
+
+/* ===== DARK THEME - USING YOUR CUSTOM COLORS ===== */
+.dark {
+  color-scheme: dark;
+  
+  /* Backgrounds - Using Ink Black */
+  --background: var(--color-ink-black-950);
+  --card: var(--color-ink-black-900);
+  --popover: var(--color-ink-black-900);
+  --sidebar: var(--color-ink-black-900);
+  
+  /* Foregrounds - Using Alabaster Grey */
+  --foreground: var(--color-alabaster-grey-50);
+  --card-foreground: var(--color-alabaster-grey-50);
+  --popover-foreground: var(--color-alabaster-grey-50);
+  --sidebar-foreground: var(--color-alabaster-grey-50);
+  
+  /* Primary - Using Prussian Blue (lighter for dark) */
+  --primary: var(--color-prussian-blue-400);
+  --primary-foreground: var(--color-ink-black-950);
+  --sidebar-primary: var(--color-prussian-blue-400);
+  --sidebar-primary-foreground: var(--color-ink-black-950);
+  
+  /* Secondary - Using Dusk Blue */
+  --secondary: var(--color-dusk-blue-700);
+  --secondary-foreground: var(--color-alabaster-grey-50);
+  
+  /* Muted - Using Dusty Denim */
+  --muted: var(--color-dusty-denim-800);
+  --muted-foreground: var(--color-alabaster-grey-400);
+  
+  /* Accent - Using Prussian Blue (darker) */
+  --accent: var(--color-prussian-blue-800);
+  --accent-foreground: var(--color-alabaster-grey-50);
+  --sidebar-accent: var(--color-prussian-blue-800);
+  --sidebar-accent-foreground: var(--color-alabaster-grey-50);
+  
+  /* Destructive - Using Ink Black */
+  --destructive: var(--color-ink-black-600);
+  
+  /* Borders - Using Ink Black */
+  --border: var(--color-ink-black-700);
+  --input: var(--color-ink-black-700);
+  --sidebar-border: var(--color-ink-black-700);
+  
+  /* Ring - Using Prussian Blue */
+  --ring: var(--color-prussian-blue-500);
+  --sidebar-ring: var(--color-prussian-blue-500);
+  
+  /* Charts - Using your palettes (adjusted for dark) */
+  --chart-1: var(--color-prussian-blue-400);
+  --chart-2: var(--color-dusk-blue-400);
+  --chart-3: var(--color-dusty-denim-400);
+  --chart-4: var(--color-ink-black-400);
+  --chart-5: var(--color-alabaster-grey-400);
+}
+
+/* ===== AUTO DARK MODE (System Preference) ===== */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+    
+    --background: var(--color-ink-black-950);
+    --card: var(--color-ink-black-900);
+    --popover: var(--color-ink-black-900);
+    --sidebar: var(--color-ink-black-900);
+    
+    --foreground: var(--color-alabaster-grey-50);
+    --card-foreground: var(--color-alabaster-grey-50);
+    --popover-foreground: var(--color-alabaster-grey-50);
+    --sidebar-foreground: var(--color-alabaster-grey-50);
+    
+    --primary: var(--color-prussian-blue-400);
+    --primary-foreground: var(--color-ink-black-950);
+    --sidebar-primary: var(--color-prussian-blue-400);
+    --sidebar-primary-foreground: var(--color-ink-black-950);
+    
+    --secondary: var(--color-dusk-blue-700);
+    --secondary-foreground: var(--color-alabaster-grey-50);
+    
+    --muted: var(--color-dusty-denim-800);
+    --muted-foreground: var(--color-alabaster-grey-400);
+    
+    --accent: var(--color-prussian-blue-800);
+    --accent-foreground: var(--color-alabaster-grey-50);
+    --sidebar-accent: var(--color-prussian-blue-800);
+    --sidebar-accent-foreground: var(--color-alabaster-grey-50);
+    
+    --destructive: var(--color-ink-black-600);
+    
+    --border: var(--color-ink-black-700);
+    --input: var(--color-ink-black-700);
+    --sidebar-border: var(--color-ink-black-700);
+    
+    --ring: var(--color-prussian-blue-500);
+    --sidebar-ring: var(--color-prussian-blue-500);
+    
+    --chart-1: var(--color-prussian-blue-400);
+    --chart-2: var(--color-dusk-blue-400);
+    --chart-3: var(--color-dusty-denim-400);
+    --chart-4: var(--color-ink-black-400);
+    --chart-5: var(--color-alabaster-grey-400);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
