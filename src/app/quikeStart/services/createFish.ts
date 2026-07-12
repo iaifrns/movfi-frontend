@@ -5,7 +5,9 @@ type Fish = {
   note: string;
   behavior: string;
   weight: number;
-  lenght: number;
+  length: number;
+  activity_id: string;
+  file: any
 };
 
 export const createFish = async (
@@ -14,8 +16,9 @@ export const createFish = async (
 ) => {
   try {
     const response = await fetch(postFishUrl, {
+      method: 'Post',
       headers: {
-        "Contact-Type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(fish),
     });

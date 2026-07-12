@@ -1,7 +1,13 @@
 import UploadIcon from "@/assets/icons/upload";
 import { useState } from "react";
 
-const UploadData = ({ nex, prev }: { nex: () => void; prev: () => void }) => {
+const UploadData = ({
+  nex,
+  prev,
+}: {
+  nex: (v: File) => void;
+  prev: () => void;
+}) => {
   const [file, setFile] = useState<File | null>(null);
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -48,8 +54,9 @@ const UploadData = ({ nex, prev }: { nex: () => void; prev: () => void }) => {
           Previous
         </button>
         <button
-          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
-          onClick={nex}
+          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-primary/50"
+          onClick={() => nex(file as File)}
+          disabled={file==null ? true : false}
         >
           Upload Data
         </button>

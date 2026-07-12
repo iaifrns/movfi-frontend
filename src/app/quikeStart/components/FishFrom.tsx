@@ -32,12 +32,27 @@ const FishFrom = ({
       {/* start of the form */}
       <div className="w-full flex flex-col gap-1">
         <label htmlFor="activityName" className="text-sm font-semibold">
-          Species Name
+          Species
         </label>
         <input
           type="text"
-          id="activityName"
-          name="activityName"
+          id="fishSpecie"
+          name="fishSpecie"
+          placeholder="Enter activity name"
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+          value={fish.species}
+          onChange={e=>setFish({...fish, species: e.target.value})}
+        />
+        <p className="text-sm text-red-400">{err}</p>
+      </div>
+      <div className="w-full flex flex-col gap-1">
+        <label htmlFor="activityName" className="text-sm font-semibold">
+          Name
+        </label>
+        <input
+          type="text"
+          id="fishName"
+          name="fishName"
           placeholder="Enter activity name"
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           value={fish.name}
@@ -55,8 +70,8 @@ const FishFrom = ({
           name="FishSize"
           placeholder="Enter fish size"
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-          value={fish.lenght}
-          onChange={e => setFish({...fish, lenght: parseInt(e.target.value)})}
+          value={fish.length}
+          onChange={e => setFish({...fish, length: parseFloat(e.target.value)})}
         />
       </div>
       <div className="w-full flex flex-col gap-1">
@@ -70,7 +85,7 @@ const FishFrom = ({
           placeholder="Enter fish size"
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           value={fish.weight}
-          onChange={e => setFish({...fish, weight: parseInt(e.target.value)})}
+          onChange={e => setFish({...fish, weight: parseFloat(e.target.value)})}
         />
       </div>
       <div className="w-full flex flex-col gap-1">

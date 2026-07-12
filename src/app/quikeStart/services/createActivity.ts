@@ -1,7 +1,7 @@
 import { postActiveUrl } from "@/constant/endpoints";
 
 export const createActivity = async (
-  activity: { name: string; description: string },
+  activity: { name: string; description: string, user_id: number },
   setData: (v: any) => void,
 ) => {
   try {
