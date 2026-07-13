@@ -158,6 +158,7 @@ export const quickStart = async (
   fish: Fish,
   file: File,
   setProgress: (v: string) => void,
+  setData: (active:any, fish:any, fileData:Record<string, number>[]) => void
 ) => {
   let data = {
     activity: { id: "", name: "", user_id: 0 },
@@ -196,6 +197,8 @@ export const quickStart = async (
             { ...fish, activity_id: data.activity.id, file: response },
             (v) => (data = { ...data, fish: v }),
           );
+
+          setData(data.activity, data.fish, result.data)
         }
       }
     }

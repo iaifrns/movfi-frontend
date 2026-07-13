@@ -1,12 +1,14 @@
 import BackIcon from "@/assets/icons/back";
 import FishIcon from "@/assets/icons/fish";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 import ActivityForm from "./components/ActivityForm";
 import FishFrom from "./components/FishFrom";
 import ProgressBar from "./components/ProgressBar";
 import UploadData from "./components/UploadData";
 import { quickStart } from "./services/quickStart";
+import { dataContext } from "@/hooks/useContext";
+import { Dashboard } from "@/constant/routs";
 
 export type Activiy = {
   name: string;
@@ -19,7 +21,7 @@ export type Fish = {
   behavior: string;
   weight: number;
   length: number;
-  species: string
+  species: string;
 };
 
 const QuickCreatePage = () => {
@@ -40,7 +42,7 @@ const QuickCreatePage = () => {
       species: "",
       weight: 0,
       length: 0,
-    }
+    },
   });
 
   const [processList, setProcessList] = useState([
@@ -56,12 +58,24 @@ const QuickCreatePage = () => {
 
   const handleCreate = async (file: File) => {
     setProcessing(true);
-    quickStart(formData.activity, formData.fish, file, (v) =>
-      setProcessList([...processList, v]),
+    quickStart(
+      formData.activity,
+      formData.fish,
+      file,
+      (v) => setProcessList([...processList, v]),
+      handleValidation,
     ).then(() => {
       setProcessing(false);
       setProcessList(["Processing Creation of activity ..."]);
     });
+  };
+
+  const { setActivity, setFish } = useContext(dataContext);
+
+  const handleValidation = (active: any, fish: any) => {
+    setActivity(active);
+    setFish(fish);
+    navigate(Dashboard);
   };
 
   return (
@@ -120,7 +134,7 @@ const QuickCreatePage = () => {
               <UploadData
                 prev={() => setPage(2)}
                 nex={(file) => {
-                  setFormData({ ...formData,});
+                  setFormData({ ...formData });
                   handleCreate(file);
                 }}
               />

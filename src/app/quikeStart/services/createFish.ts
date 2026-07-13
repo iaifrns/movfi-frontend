@@ -1,6 +1,6 @@
 import { postFishUrl } from "@/constant/endpoints";
 
-type Fish = {
+export type Fish = {
   name: string;
   note: string;
   behavior: string;

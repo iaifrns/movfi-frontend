@@ -35,8 +35,16 @@ import {
 
 import { AppSidebar } from "@/components/app-sidebar"
 import data from "./data.json"
+import { useEffect, useState } from "react"
 
 export default function Dashaboard() {
+
+  const [activity, setActivity] = useState([])
+
+  useEffect(()=>{
+
+  },[])
+
   return (
     <SidebarProvider
       style={
