@@ -27,7 +27,7 @@ import {
   Settings2Icon,
   type LucideIcon,
 } from "lucide-react";
-import { useLocation, useMatch } from "react-router";
+import { useLocation } from "react-router";
 
 const routerConfig = {
   "/": {
