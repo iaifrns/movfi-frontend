@@ -5,7 +5,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { CirclePlusIcon } from "lucide-react";
+import { Menu } from "@/constant/menu";
+import { CirclePlusIcon, type LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router";
 
 export function NavMain({
@@ -14,10 +15,10 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon?: React.ReactNode;
+    icon?: LucideIcon;
+    active?: boolean;
   }[];
 }) {
-
   const navigate = useNavigate();
 
   return (
@@ -33,15 +34,18 @@ export function NavMain({
               }}
             >
               <CirclePlusIcon />
-              <span>Create Activity</span>
+              <span>{Menu.quickStart}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
           {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem
+              key={item.title}
+              className={`${item.active && "min-w-8 rounded-md bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"}`}
+            >
               <SidebarMenuButton tooltip={item.title}>
-                {item.icon}
+                {item.icon && <item.icon />}
                 <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>

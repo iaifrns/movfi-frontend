@@ -1,10 +1,10 @@
-import * as React from "react"
+import * as React from "react";
 
-import FishIcon from "@/assets/icons/fish"
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import FishIcon from "@/assets/icons/fish";
+import { NavDocuments } from "@/components/nav-documents";
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -13,64 +13,47 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { CameraIcon, ChartBarIcon, CircleHelpIcon, DatabaseIcon, FileChartColumnIcon, FileIcon, FileTextIcon, FolderIcon, LayoutDashboardIcon, ListIcon, SearchIcon, Settings2Icon, UsersIcon } from "lucide-react"
+} from "@/components/ui/sidebar";
+import { navMain } from "@/constant/menu";
+import { dataContext } from "@/hooks/useContext";
+import {
+  CameraIcon,
+  CircleHelpIcon,
+  DatabaseIcon,
+  FileChartColumnIcon,
+  FileIcon,
+  FileTextIcon,
+  SearchIcon,
+  Settings2Icon,
+  type LucideIcon,
+} from "lucide-react";
+import { useLocation, useMatch } from "react-router";
+
+const routerConfig = {
+  "/": {
+    sideBarData: {
+      ...navMain,
+      dashboard: { ...navMain.dashboard, active: true },
+    },
+  },
+  "/quick-start": {
+    sideBarData: {
+      ...navMain,
+      quickStart: { active: true },
+    },
+  },
+};
 
 const data = {
   user: {
     name: "shadcn",
-    email: "m@example.com",
+    activity: "",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: (
-        <LayoutDashboardIcon
-        />
-      ),
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: (
-        <ListIcon
-        />
-      ),
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: (
-        <ChartBarIcon
-        />
-      ),
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: (
-        <FolderIcon
-        />
-      ),
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: (
-        <UsersIcon
-        />
-      ),
-    },
-  ],
   navClouds: [
     {
       title: "Capture",
-      icon: (
-        <CameraIcon
-        />
-      ),
+      icon: <CameraIcon />,
       isActive: true,
       url: "#",
       items: [
@@ -86,10 +69,7 @@ const data = {
     },
     {
       title: "Proposal",
-      icon: (
-        <FileTextIcon
-        />
-      ),
+      icon: <FileTextIcon />,
       url: "#",
       items: [
         {
@@ -104,10 +84,7 @@ const data = {
     },
     {
       title: "Prompts",
-      icon: (
-        <FileTextIcon
-        />
-      ),
+      icon: <FileTextIcon />,
       url: "#",
       items: [
         {
@@ -125,56 +102,47 @@ const data = {
     {
       title: "Settings",
       url: "#",
-      icon: (
-        <Settings2Icon
-        />
-      ),
+      icon: <Settings2Icon />,
     },
     {
       title: "Get Help",
       url: "#",
-      icon: (
-        <CircleHelpIcon
-        />
-      ),
+      icon: <CircleHelpIcon />,
     },
     {
       title: "Search",
       url: "#",
-      icon: (
-        <SearchIcon
-        />
-      ),
+      icon: <SearchIcon />,
     },
   ],
   documents: [
     {
       name: "Data Library",
       url: "#",
-      icon: (
-        <DatabaseIcon
-        />
-      ),
+      icon: <DatabaseIcon />,
     },
     {
       name: "Reports",
       url: "#",
-      icon: (
-        <FileChartColumnIcon
-        />
-      ),
+      icon: <FileChartColumnIcon />,
     },
     {
       name: "Word Assistant",
       url: "#",
-      icon: (
-        <FileIcon
-        />
-      ),
+      icon: <FileIcon />,
     },
   ],
-}
+};
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { activity } = React.useContext(dataContext);
+
+  const location = useLocation();
+
+  const currentRoute = location.pathname;
+  const config =
+    routerConfig[currentRoute as keyof typeof routerConfig] ||
+    routerConfig["/"];
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -191,13 +159,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain
+          items={
+            Object.values(config.sideBarData) as {
+              title: string;
+              url: string;
+              icon?: LucideIcon;
+              active?: boolean;
+            }[]
+          }
+        />
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={{ ...data.user, activity: activity.name }} />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

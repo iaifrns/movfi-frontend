@@ -24,26 +24,38 @@ Files
 
 app/dashboard/page.tsx */
 
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/data-table"
-import { SectionCards } from "@/components/section-cards"
-import { SiteHeader } from "@/components/site-header"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+import { ChartAreaInteractive } from "@/components/chart-area-interactive";
+import { DataTable } from "@/components/data-table";
+import { SectionCards } from "@/components/section-cards";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-import { AppSidebar } from "@/components/app-sidebar"
-import data from "./data.json"
-import { useEffect, useState } from "react"
+import { AppSidebar } from "@/components/app-sidebar";
+import LoadingPage from "@/components/LoadingPage";
+import { dataContext } from "@/hooks/useContext";
+import { useContext, useEffect, useState } from "react";
+import data from "./data.json";
+import { getOneActivity } from "./services/getOneActivity";
 
 export default function Dashaboard() {
+  const [loading, setLoading] = useState(false);
 
-  const [activity, setActivity] = useState([])
+  const { activity, setActivity } = useContext(dataContext);
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (activity.id.length < 1) {
+      setLoading(true);
+      getOneActivity(setActivity).then(() => {
+        setLoading(false);
+      });
+    }else{
+      setActivity(activity)
+    }
+  }, []);
 
-  },[])
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <SidebarProvider
@@ -70,7 +82,7 @@ export default function Dashaboard() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }
 /* 
 A sidebar that collapses to icons

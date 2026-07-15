@@ -1,8 +1,8 @@
-import type { Activity } from "@/app/quikeStart/services/createActivity";
+import type { ActivityResponse } from "@/types/activity";
 import { createContext, useState, type ReactNode } from "react";
 
 export const dataContext = createContext({
-  active: { id: "", name: "", description: "", user_id: 0 },
+  activity: { id: "", name: "", description: "", user_id: 0 },
   fish: {
     id: "",
     name: "",
@@ -15,12 +15,12 @@ export const dataContext = createContext({
   },
   dataSet: null,
   setDataSet: (_: any) => {},
-  setActivity: (_: Activity) => {},
+  setActivity: (_: ActivityResponse) => {},
   setFish: (_: any) => {},
 });
 
 const DataProvider = ({ children }: { children: ReactNode }) => {
-  const [active, setActive] = useState<Activity>({
+  const [active, setActive] = useState<ActivityResponse>({
     id: "",
     name: "",
     description: "",
@@ -43,7 +43,7 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
   return (
     <dataContext.Provider
       value={{
-        active: active,
+        activity: active,
         fish,
         setActivity: setActive,
         setFish,
