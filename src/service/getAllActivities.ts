@@ -14,13 +14,13 @@ export const getActivities = async (setLoading: (v: boolean) => void, setData:(v
   }
 };
 
-export const getOneActivityById = async (activityId: string) => {
+export const getOneActivityById = async (activityId: string, setActivity:(v:ActivityResponse)=>void) => {
     try{
-        const response = await fetch(postActiveUrl+'get_activity_by_id/'+activityId)
+        const response = await fetch(postActiveUrl+`/get_activity_by_id/${activityId}`)
 
         const data = await response.json()
 
-        console.log(data)
+        setActivity(data)
     }catch(e){
         console.log(e)
     }

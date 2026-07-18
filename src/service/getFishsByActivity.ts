@@ -1,15 +1,17 @@
-import { getFishsUrl } from "@/constant/endpoints"
+import { getFishsUrl } from "@/constant/endpoints";
+import type { Fish } from "@/types/fish";
 
-export const getFishByActivity = async (setLoading:(v:boolean)=>void, activityId: string) => {
-    try{
-        setLoading(true)
-        const response = await fetch(getFishsUrl+`/${activityId}`)
-        const data = await response.json()
+export const getFishByActivity = async (
+  activityId: string,
+  setFishs: (v: Fish[]) => void,
+) => {
+  try {
+    const response = await fetch(getFishsUrl + `/${activityId}`);
+    const data = await response.json();
 
-        console.log(data)
-    }catch(e){
-        console.log(e)
-    }finally{
-        setLoading(false)
-    }
-}
+    console.log(data)
+    setFishs(data);
+  } catch (e) {
+    console.log(e);
+  }
+};
