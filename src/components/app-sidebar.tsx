@@ -42,6 +42,12 @@ const routerConfig = {
       quickStart: { active: true },
     },
   },
+  "/activity-list":{
+    sideBarData: {
+      ...navMain,
+      activityList: {...navMain.activityList, active: true },
+    }
+  }
 };
 
 const data = {

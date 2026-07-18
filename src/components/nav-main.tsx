@@ -6,6 +6,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Menu } from "@/constant/menu";
+import { quickStart } from "@/constant/routs";
 import { CirclePlusIcon, type LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -28,9 +29,9 @@ export function NavMain({
           <SidebarMenuItem className="flex items-center gap-2">
             <SidebarMenuButton
               tooltip="Quick Create"
-              className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+              className="min-w-8 border border-primary duration-200 ease-linear hover:bg-secondary/70 hover:border-0"
               onClick={() => {
-                navigate("/quick-start");
+                navigate(quickStart);
               }}
             >
               <CirclePlusIcon />
@@ -38,13 +39,13 @@ export function NavMain({
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        <SidebarMenu>
+        <SidebarMenu className="gap-1">
           {items.map((item) => (
             <SidebarMenuItem
               key={item.title}
               className={`${item.active && "min-w-8 rounded-md bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"}`}
             >
-              <SidebarMenuButton tooltip={item.title}>
+              <SidebarMenuButton tooltip={item.title} onClick={()=>navigate(item.url)}>
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
               </SidebarMenuButton>

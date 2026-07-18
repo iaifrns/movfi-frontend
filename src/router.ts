@@ -2,14 +2,25 @@ import { createBrowserRouter } from "react-router";
 import Dashboard from "./app/dashboard/dashboard";
 import QuickCreatePage from "./app/quikeStart";
 import ProtectingLayout from "./layout/ProtectingLayout";
-import { quickStart } from "./constant/routs";
+import { activityList, detailActivity, quickStart } from "./constant/routs";
+import DashboardLayout from "./layout/DashboardLayout";
+import ActivityList from "./app/activity/ActivityList";
+import DetailActivity from "./app/activity/DetailActivity";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: ProtectingLayout,
     children: [
-      { index: true, Component: Dashboard },
+      {
+        path: "/",
+        Component: DashboardLayout,
+        children: [
+          { index: true, Component: Dashboard },
+          { path: activityList, Component: ActivityList },
+          { path: detailActivity, Component: DetailActivity },
+        ],
+      },
       {
         path: quickStart,
         Component: QuickCreatePage,

@@ -5,9 +5,11 @@ import {
     ListIcon,
     UsersIcon
 } from "lucide-react";
+import { activityList } from "./routs";
 export const Menu = {
   dashboard: "Dashboard",
   quickStart: "Create Activity",
+  activeList: "Activities"
 };
 
 export const navMain = {
@@ -26,9 +28,9 @@ export const navMain = {
     url: "#",
     icon: ChartBarIcon,
   },
-  'project':{
-    title: "Projects",
-    url: "#",
+  'activityList':{
+    title: Menu.activeList,
+    url: activityList,
     icon: FolderIcon,
   },
   'team':{

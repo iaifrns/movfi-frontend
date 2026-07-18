@@ -6,3 +6,4 @@ export const postActiveUrl = baseUrl + 'api/activity'
 export const getOneActiveUrl = postActiveUrl + '/get_one'
 
 export const postFishUrl = baseUrl + 'api/fish'
+export const getFishsUrl = baseUrl + 'api/fish/fishs'
