@@ -11,7 +11,11 @@ export const dataContext = createContext({
     weight: 0,
     length: 0,
     activity_id: "",
-    file: null,
+    file: null as {
+      id: string;
+      path: string;
+      fullPath: string;
+    } | null,
   },
   dataSet: null,
   setDataSet: (_: any) => {},

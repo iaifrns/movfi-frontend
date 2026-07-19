@@ -28,6 +28,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useLocation } from "react-router";
+import { fileData } from "@/constant/routs";
 
 const routerConfig = {
   "/": {
@@ -46,6 +47,11 @@ const routerConfig = {
     sideBarData: {
       ...navMain,
       activityList: {...navMain.activityList, active: true },
+    }
+  },
+  "/fish_file_data":{
+    sideBarData: {
+      ...navMain
     }
   }
 };
@@ -123,19 +129,9 @@ const data = {
   ],
   documents: [
     {
-      name: "Data Library",
-      url: "#",
-      icon: <DatabaseIcon />,
-    },
-    {
-      name: "Reports",
-      url: "#",
+      name: "Fish Data File",
+      url: fileData,
       icon: <FileChartColumnIcon />,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: <FileIcon />,
     },
   ],
 };

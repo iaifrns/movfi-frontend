@@ -2,6 +2,7 @@ import { supabase } from "@/client/supabase";
 import { createActivity } from "./createActivity";
 import { createFish } from "./createFish";
 import * as XLSX from "xlsx";
+import { supabaseBucket } from "@/constant/endpoints";
 
 type Fish = {
   name: string;
@@ -181,7 +182,7 @@ export const quickStart = async (
       if (res.missingCount == 0) {
         setProgress("Process Uploading file ...");
         const { data: response, error } = await supabase.storage
-          .from("FishKinetic")
+          .from(supabaseBucket)
           .upload(
             `${data.activity.user_id}/${data.activity.id}/${file.name}`,
             file,
