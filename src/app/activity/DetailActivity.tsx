@@ -66,12 +66,11 @@ const DetailActivity = () => {
 
   return (
     <>
-      <Popup
+      {openModal && (<Popup
         activity={activity || { name: "", description: "", id: "", user_id: 0 }}
-        open={openModal}
         setOpen={setOpenModal}
         setActivity={setActivity}
-      />
+      />)}
       <div className="flex w-full justify-between items-center px-6">
         <div
           onClick={() => {

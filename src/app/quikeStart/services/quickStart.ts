@@ -1,8 +1,6 @@
 import { supabase } from "@/client/supabase";
-import { createActivity } from "./createActivity";
-import { createFish } from "./createFish";
+import { quickSetupUrl, supabaseBucket } from "@/constant/endpoints";
 import * as XLSX from "xlsx";
-import { supabaseBucket } from "@/constant/endpoints";
 
 type Fish = {
   name: string;
@@ -154,56 +152,100 @@ const checkXYStructure = (headers: string[]): boolean => {
   return count * 2 == headers.length;
 };
 
+const quickStartEndPoint = async (
+  bodyData: {
+    fish: Fish;
+    activity: { name: string; description: string };
+    file_data: { file_name: string; data: FishData[] };
+  },
+  file: any,
+) => {
+  try {
+    const response = await fetch(quickSetupUrl, {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        activity: { ...bodyData.activity, user_id: 1 },
+        fish: { ...bodyData.fish, file: file, activity_id: "0" },
+        file_data: { ...bodyData.file_data, fish_id: "" },
+      }),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const quickStart = async (
   active: { name: string; description: string },
   fish: Fish,
   file: File,
   setProgress: (v: string) => void,
-  setData: (active:any, fish:any, fileData:Record<string, number>[]) => void
+  setData: (active: any, fish: any, fileData: any) => void,
 ) => {
   let data = {
-    activity: { id: "", name: "", user_id: 0 },
+    activity: { id: "", name: "", user_id: 1 },
     fish: undefined,
   };
 
-  await createActivity({ ...active, user_id: 1 }, (v) => {
+  /* await createActivity({ ...active, user_id: 1 }, (v) => {
     data = { ...data, activity: v };
-  });
+  }); */
 
-  if (data.activity) {
-    setProgress(`Processing file ${file.name} ...`);
-    const result = await parseExcel(file);
-    setProgress("Checking if all frames has a X and Y axeses");
+  setProgress(`Processing file ${file.name} ...`);
+  const result = await parseExcel(file);
+  setProgress("Checking if all frames has a X and Y axeses");
 
-    console.log(result)
+  if (checkXYStructure(result.headers)) {
+    setProgress("Checking for missing values ...");
+    const res = checkMissingValues(result.data, result.headers);
 
-    if (checkXYStructure(result.headers)) {
-      setProgress("Checking for missing values ...");
-      const res = checkMissingValues(result.data, result.headers);
+    if (res.missingCount == 0) {
+      setProgress("Process Uploading file ...");
+      const { data: response, error } = await supabase.storage
+        .from(supabaseBucket)
+        .upload(`${data.activity.user_id}/${active.name}/${file.name}`, file);
 
-      if (res.missingCount == 0) {
-        setProgress("Process Uploading file ...");
-        const { data: response, error } = await supabase.storage
-          .from(supabaseBucket)
-          .upload(
-            `${data.activity.user_id}/${data.activity.id}/${file.name}`,
-            file,
-          );
+      if (error) {
+        console.log(error);
+        alert(error.message);
+      } else {
+        console.log(response);
+        setProgress("Processing creation of the Fish information ...");
 
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(response);
-          setProgress("Processing creation of the Fish information ...");
-
-          await createFish(
+        /* await createFish(
             { ...fish, activity_id: data.activity.id, file: response },
             (v) => (data = { ...data, fish: v }),
+          ); */
+
+        const responseData = await quickStartEndPoint(
+          {
+            fish: fish,
+            activity: active,
+            file_data: { file_name: file.name, data: result.data },
+          },
+          response,
+        );
+
+        if (responseData.activity) {
+          setData(
+            responseData.activity,
+            responseData.fish,
+            responseData.file_data,
           );
+        } else {
+          const { error } = await supabase.storage
+            .from(supabaseBucket)
+            .remove([file.name, response.path, response.fullPath]);
 
-          
-
-          setData(data.activity, data.fish, result.data)
+          if (error) {
+            console.log(error);
+          }
         }
       }
     }

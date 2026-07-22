@@ -70,11 +70,12 @@ const QuickCreatePage = () => {
     });
   };
 
-  const { setActivity, setFish } = useContext(dataContext);
+  const { setActivity, setFish, setFileData } = useContext(dataContext);
 
-  const handleValidation = (active: any, fish: any) => {
+  const handleValidation = (active: any, fish: any, fileData: any) => {
     setActivity(active);
     setFish(fish);
+    setFileData(fileData)
     navigate(Dashboard);
   };
 

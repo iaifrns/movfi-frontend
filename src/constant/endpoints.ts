@@ -10,6 +10,7 @@ export const postFishUrl = baseUrl + 'api/fish'
 export const getFishsUrl = baseUrl + 'api/fish/fishs'
 
 export const postFileUrl = postFishUrl + '/set_file_data'
+export const quickSetupUrl = baseUrl + "api/quick_start"
 
 export const updateFishUrl = baseUrl + 'api/fish/modify/'
 export const updateActivityUrl = baseUrl + 'api/activity/modify/'
