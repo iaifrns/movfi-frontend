@@ -9,5 +9,7 @@ export const getOneActiveUrl = postActiveUrl + '/get_one'
 export const postFishUrl = baseUrl + 'api/fish'
 export const getFishsUrl = baseUrl + 'api/fish/fishs'
 
+export const postFileUrl = postFishUrl + '/set_file_data'
+
 export const updateFishUrl = baseUrl + 'api/fish/modify/'
 export const updateActivityUrl = baseUrl + 'api/activity/modify/'

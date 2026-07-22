@@ -18,3 +18,14 @@ export interface FishInput {
   note: string;
   name: string;
 }
+
+export interface FileDataStructure {
+  id: string;
+  file_name: string;
+  data: Record<string, number>;
+  fish_id: string;
+  create_at: Date;
+  expires_at: Date;
+  last_accessed: Date;
+  access_count: number;
+}

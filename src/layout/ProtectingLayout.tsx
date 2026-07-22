@@ -13,20 +13,16 @@ const ProtectingLayout = () => {
 
   useEffect(() => {
     getActivity(setLoading).then((data) => {
+      if(data.length == 0){
+        navigate(quickStart)
+      }
+
       setActivities(data);
       setActivity(data[0]);
     });
   }, []);
 
-  useEffect(() => {
-    if (!loading) {
-      if (activities.length == 0) {
-        navigate(quickStart);
-      }
-    }
-  }, [loading, activities]);
-
-  if (loading) {
+  if (loading && activities.length == 0) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         <p className="font-bold text-2xl animate-bounce">Loading ...</p>

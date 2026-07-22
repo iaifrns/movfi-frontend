@@ -175,6 +175,8 @@ export const quickStart = async (
     const result = await parseExcel(file);
     setProgress("Checking if all frames has a X and Y axeses");
 
+    console.log(result)
+
     if (checkXYStructure(result.headers)) {
       setProgress("Checking for missing values ...");
       const res = checkMissingValues(result.data, result.headers);
@@ -198,6 +200,8 @@ export const quickStart = async (
             { ...fish, activity_id: data.activity.id, file: response },
             (v) => (data = { ...data, fish: v }),
           );
+
+          
 
           setData(data.activity, data.fish, result.data)
         }
