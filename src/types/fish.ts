@@ -22,7 +22,7 @@ export interface FishInput {
 export interface FileDataStructure {
   id: string;
   file_name: string;
-  data: Record<string, number>;
+  data: Record<string, number>[];
   fish_id: string;
   create_at: Date;
   expires_at: Date;
