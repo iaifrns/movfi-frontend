@@ -38,13 +38,27 @@ const parseExcel = (
         // Convert to JSON
         const jsonData = XLSX.utils.sheet_to_json(worksheet, {
           defval: "", // Default value for empty cells
+          header: 1,
         });
 
         if (jsonData && jsonData.length > 0) {
           // Clean up headers
-          const headers = Object.keys(jsonData[0] as {}).map((h) =>
-            h.trim().toLowerCase().replace(/\s+/g, "_"),
-          );
+          const headers: string[] = [];
+          const rowList = jsonData[0] as string;
+
+          for (let i = 0; i < rowList.length; i++) {
+            if (i % 2 == 0) {
+              let letter = !isNaN(Number(rowList[i]))
+                ? rowList[i]
+                : rowList[i + 1];
+
+              headers.push(letter + "x");
+              headers.push(letter + "y");
+              i++;
+            }
+          }
+
+          jsonData.shift();
 
           // Rename keys in data
           const cleanData = jsonData.map((row: any) => {
@@ -142,14 +156,17 @@ function checkMissingValues(
 }
 
 const checkXYStructure = (headers: string[]): boolean => {
-  let count = 0;
+  let countX = 0;
+  let countY = 0;
   for (let i = 0; i < headers.length; i++) {
-    if (parseFloat(headers[i])) {
-      count++;
+    if (headers[i].includes("x")) {
+      countX++;
+    } else if (headers[i].includes("y")) {
+      countY++;
     }
   }
 
-  return count * 2 == headers.length;
+  return countX + countY == headers.length;
 };
 
 const quickStartEndPoint = async (
@@ -201,10 +218,12 @@ export const quickStart = async (
   const result = await parseExcel(file);
   setProgress("Checking if all frames has a X and Y axeses");
 
+  console.log(result.headers, result.data);
+
   if (checkXYStructure(result.headers)) {
+    console.log("right here");
     setProgress("Checking for missing values ...");
     const res = checkMissingValues(result.data, result.headers);
-
     if (res.missingCount == 0) {
       setProgress("Process Uploading file ...");
       const { data: response, error } = await supabase.storage
@@ -249,5 +268,9 @@ export const quickStart = async (
         }
       }
     }
+  } else {
+    alert(
+      "The structure of the file is not correct it lakes some x and y axises of some frames",
+    );
   }
 };

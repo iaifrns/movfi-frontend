@@ -1,5 +1,3 @@
-import { supabase } from "@/client/supabase";
-import { supabaseBucket } from "@/constant/endpoints";
 import { getFileDataByFish } from "@/service/getFileDataByFish";
 import { getFishByActivity } from "@/service/getFishsByActivity";
 import type { Fish } from "@/types/fish";
