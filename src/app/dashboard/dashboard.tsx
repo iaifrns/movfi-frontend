@@ -37,7 +37,7 @@ import { getOneActivity } from "./services/getOneActivity";
 export default function Dashaboard() {
   const [loading, setLoading] = useState(false);
 
-  const { activity, setActivity } = useContext(dataContext);
+  const { activity, setActivity, fileData } = useContext(dataContext);
 
   useEffect(() => {
     if (activity.id.length < 1) {
@@ -58,7 +58,7 @@ export default function Dashaboard() {
     <>
       <SectionCards />
       <div className="px-4 lg:px-6">
-        <ChartAreaInteractive />
+        <ChartAreaInteractive fileData={fileData?.data || []} />
       </div>
       <DataTable data={data} />
     </>
