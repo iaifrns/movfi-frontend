@@ -31,24 +31,37 @@ import { SectionCards } from "@/components/section-cards";
 import LoadingPage from "@/components/LoadingPage";
 import { dataContext } from "@/hooks/useContext";
 import { useContext, useEffect, useState } from "react";
+import { checkFishAndFileData } from "../fileData/services/getDataFile";
 import data from "./data.json";
 import { getOneActivity } from "./services/getOneActivity";
 
 export default function Dashaboard() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const { activity, setActivity, fileData } = useContext(dataContext);
+  const { activity, setActivity, fileData, setFileData, fish, setFish } =
+    useContext(dataContext);
 
   useEffect(() => {
     if (activity.id.length < 1) {
       setLoading(true);
-      getOneActivity(setActivity).then(() => {
-        setLoading(false);
-      });
-    } else {
-      setActivity(activity);
+      getOneActivity(setActivity);
     }
   }, []);
+
+  useEffect(() => {
+    if (activity.id.length > 3) {
+      setLoading(true);
+      checkFishAndFileData(
+        fish.id,
+        fileData?.id,
+        activity.id,
+        setFish,
+        setFileData,
+      ).then(() => {
+        setLoading(false);
+      });
+    }
+  }, [activity]);
 
   if (loading) {
     return <LoadingPage />;

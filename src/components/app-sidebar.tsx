@@ -15,20 +15,18 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { navMain } from "@/constant/menu";
+import { fileData } from "@/constant/routs";
 import { dataContext } from "@/hooks/useContext";
 import {
   CameraIcon,
   CircleHelpIcon,
-  DatabaseIcon,
   FileChartColumnIcon,
-  FileIcon,
   FileTextIcon,
   SearchIcon,
   Settings2Icon,
-  type LucideIcon,
+  type LucideIcon
 } from "lucide-react";
 import { useLocation } from "react-router";
-import { fileData } from "@/constant/routs";
 
 const routerConfig = {
   "/": {
