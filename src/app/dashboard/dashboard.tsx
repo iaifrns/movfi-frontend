@@ -71,7 +71,7 @@ export default function Dashaboard() {
     <>
       <SectionCards />
       <div className="px-4 lg:px-6">
-        <ChartAreaInteractive fileData={fileData?.data || []} />
+        <ChartAreaInteractive fileData={fileData?.data || []} fishId={fish.id} />
       </div>
       <DataTable data={data} />
     </>

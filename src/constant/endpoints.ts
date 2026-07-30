@@ -15,3 +15,6 @@ export const quickSetupUrl = baseUrl + "api/quick_start"
 
 export const updateFishUrl = baseUrl + 'api/fish/modify/'
 export const updateActivityUrl = baseUrl + 'api/activity/modify/'
+
+export const framesJointPointsUrl = baseUrl + 'api/segment/get_frams_segment/'
+export const allFramesJointPointsUrl = baseUrl + 'api/segment/get_a_segment/'

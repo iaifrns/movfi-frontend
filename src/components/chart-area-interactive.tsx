@@ -28,6 +28,8 @@ import {
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { generateDistinctColors } from "@/service/generateColors";
+import LoadingIcon from "@/assets/icons/loading";
+import { reArrangeData, selectData } from "@/app/dashboard/services/rearrangeData";
 
 export const description = "An interactive area chart";
 
@@ -47,8 +49,10 @@ const chartConfig = {
 
 export function ChartAreaInteractive({
   fileData,
+  fishId,
 }: {
   fileData: Record<string, any>[];
+  fishId: string;
 }) {
   const isMobile = useIsMobile();
   const [timeRange, setTimeRange] = React.useState("90d");
@@ -59,18 +63,34 @@ export function ChartAreaInteractive({
     x_axis: [],
     y_axis: [],
   });
-  const [colors, setColors] = React.useState<string[]>([])
+  const [colors, setColors] = React.useState<string[]>([]);
+  const [isGraphLoading, setIsGraphLoading] = React.useState(false);
+  const [displayData, setDisplayData] = React.useState(fileData);
+  const [joinDatas, setJointDatas] = React.useState({})
+  const [allJoinPoints, setAllJointPoints] = React.useState<[]>([])
 
   React.useEffect(() => {
-    setAxises(seperateXfromY(fileData[0]));
-    setColors(generateDistinctColors(Object.keys(fileData).length))
-  }, []);
+    setAxises(seperateXfromY(displayData[0]));
+    setColors(generateDistinctColors(Object.keys(displayData[0]).length));
+  }, [displayData]);
 
   React.useEffect(() => {
     if (isMobile) {
       setTimeRange("7d");
     }
   }, [isMobile]);
+
+  const handleGetEachFrameJoint = () => {
+    setIsGraphLoading(true);
+    reArrangeData(fishId, fileData, setDisplayData, joinDatas, setJointDatas).then(() =>
+      setIsGraphLoading(false),
+    );
+  };
+
+  const handleUseJointPoint = () => {
+    setIsGraphLoading(true)
+    selectData(fishId, setDisplayData, fileData, allJoinPoints, setAllJointPoints).then(()=>setIsGraphLoading(false))
+  }
 
   /* const filteredData = chartData.filter((item) => {
     const date = new Date(item.date);
@@ -85,6 +105,14 @@ export function ChartAreaInteractive({
     startDate.setDate(startDate.getDate() - daysToSubtract);
     return date >= startDate;
   }); */
+
+  /*  if (isGraphLoading) {
+    return (
+      <div className="flex w-full h-105 justify-center items-center border rounded-md">
+        <LoadingIcon w="32px" h="32px" />
+      </div>
+    );
+  } */
 
   return (
     <Card className="@container/card">
@@ -106,9 +134,16 @@ export function ChartAreaInteractive({
             variant="outline"
             className="hidden *:data-[slot=toggle-group-item]:px-4! @[767px]/card:flex"
           >
-            <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
-            <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
-            <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
+            <ToggleGroupItem
+              value="90d"
+              onClick={() => setDisplayData(fileData)}
+            >
+              Orinal Data
+            </ToggleGroupItem>
+            <ToggleGroupItem value="30d" onClick={handleGetEachFrameJoint}>
+              Joint points of every frame
+            </ToggleGroupItem>
+            <ToggleGroupItem value="7d" onClick={handleUseJointPoint}>General joint points</ToggleGroupItem>
           </ToggleGroup>
           <Select
             value={timeRange}
@@ -139,38 +174,18 @@ export function ChartAreaInteractive({
           </Select>
         </CardAction>
       </CardHeader>
+      {isGraphLoading && (
+        <div className="flex w-full justify-center items-center  rounded-md">
+          <LoadingIcon w="24px" h="24px" />
+          <p className="animate-pulse font-semibold">Loading ...</p>
+        </div>
+      )}
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-62.5 w-full"
         >
-          <AreaChart data={fileData}>
-            <defs>
-              <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={1.0}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-desktop)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-              <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="var(--color-mobile)"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-            </defs>
+          <AreaChart data={displayData}>
             <CartesianGrid vertical={false} />
             {axises.x_axis.map((item) => (
               <XAxis
@@ -180,7 +195,7 @@ export function ChartAreaInteractive({
                 tickMargin={8}
                 minTickGap={32}
                 tickFormatter={(value) => {
-                  return value.toFixed(4)
+                  return value.toFixed(4);
                 }}
               />
             ))}
@@ -189,10 +204,7 @@ export function ChartAreaInteractive({
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    });
+                    return value;
                   }}
                   indicator="dot"
                 />
