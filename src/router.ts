@@ -7,11 +7,13 @@ import {
   detailActivity,
   fileData,
   quickStart,
+  visualization,
 } from "./constant/routs";
 import DashboardLayout from "./layout/DashboardLayout";
 import ActivityList from "./app/activity/ActivityList";
 import DetailActivity from "./app/activity/DetailActivity";
 import FileData from "./app/fileData";
+import VisualizationPage from "./app/visualization";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,7 @@ const router = createBrowserRouter([
           { path: activityList, Component: ActivityList },
           { path: detailActivity, Component: DetailActivity },
           { path: fileData, Component: FileData },
+          {path:visualization, Component: VisualizationPage}
         ],
       },
       {

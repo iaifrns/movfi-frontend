@@ -15,7 +15,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { navMain } from "@/constant/menu";
-import { fileData } from "@/constant/routs";
+import { fileData, visualization } from "@/constant/routs";
 import { dataContext } from "@/hooks/useContext";
 import {
   CameraIcon,
@@ -24,7 +24,7 @@ import {
   FileTextIcon,
   SearchIcon,
   Settings2Icon,
-  type LucideIcon
+  type LucideIcon,
 } from "lucide-react";
 import { useLocation } from "react-router";
 
@@ -41,17 +41,23 @@ const routerConfig = {
       quickStart: { active: true },
     },
   },
-  "/activity-list":{
+  "/activity-list": {
     sideBarData: {
       ...navMain,
-      activityList: {...navMain.activityList, active: true },
-    }
+      activityList: { ...navMain.activityList, active: true },
+    },
   },
-  "/fish_file_data":{
+  "/fish_file_data": {
     sideBarData: {
-      ...navMain
-    }
-  }
+      ...navMain,
+    },
+  },
+  [visualization]: {
+    sideBarData: {
+      ...navMain,
+      visualization: { ...navMain.visualization, active: true },
+    },
+  },
 };
 
 const data = {
