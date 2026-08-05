@@ -34,6 +34,7 @@ import { useContext, useEffect, useState } from "react";
 import { checkFishAndFileData } from "../fileData/services/getDataFile";
 import data from "./data.json";
 import { getOneActivity } from "./services/getOneActivity";
+import SvgAnimation from "../visualization/components/svgAnimation";
 
 export default function Dashaboard() {
   const [loading, setLoading] = useState(true);
@@ -73,7 +74,11 @@ export default function Dashaboard() {
       <div className="px-4 lg:px-6">
         <ChartAreaInteractive fileData={fileData?.data || []} fishId={fish.id} />
       </div>
-      <DataTable data={data} />
+      <SvgAnimation
+        fileData={fileData}
+        title="Annimated Fish Movement With Full Data"
+      />
+      {/* <DataTable data={data} /> */}
     </>
   );
 }
