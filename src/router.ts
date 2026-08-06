@@ -4,6 +4,7 @@ import QuickCreatePage from "./app/quikeStart";
 import ProtectingLayout from "./layout/ProtectingLayout";
 import {
   activityList,
+  analysis,
   detailActivity,
   fileData,
   quickStart,
@@ -14,6 +15,7 @@ import ActivityList from "./app/activity/ActivityList";
 import DetailActivity from "./app/activity/DetailActivity";
 import FileData from "./app/fileData";
 import VisualizationPage from "./app/visualization";
+import AnalysisPage from "./app/analysis";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +30,8 @@ const router = createBrowserRouter([
           { path: activityList, Component: ActivityList },
           { path: detailActivity, Component: DetailActivity },
           { path: fileData, Component: FileData },
-          {path:visualization, Component: VisualizationPage}
+          { path: visualization, Component: VisualizationPage },
+          { path: analysis, Component: AnalysisPage },
         ],
       },
       {

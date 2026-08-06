@@ -5,7 +5,7 @@ import {
     ListIcon,
     UsersIcon
 } from "lucide-react";
-import { activityList, visualization } from "./routs";
+import { activityList, analysis, visualization } from "./routs";
 export const Menu = {
   dashboard: "Dashboard",
   quickStart: "Create Activity",
@@ -25,7 +25,7 @@ export const navMain = {
   },
   'analysis':{
     title: "Analytics",
-    url: "#",
+    url: analysis,
     icon: ChartBarIcon,
   },
   'activityList':{

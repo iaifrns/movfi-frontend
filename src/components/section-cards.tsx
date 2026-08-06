@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TrendingUpIcon, TrendingDownIcon } from "lucide-react";
+import { TrendingUpIcon } from "lucide-react";
 
 export function SectionCards({ jointPoints, data }: { jointPoints: [], data?: Record<string, any>[] }) {
   return (
