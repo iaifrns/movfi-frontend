@@ -9,12 +9,11 @@ import { animationPoints } from "../services/animationPoints";
 
 const SvgAnimation = ({
   fileData,
-  title
+  title,
 }: {
-  fileData: FileDataStructure | null,
-  title: string
+  fileData: FileDataStructure | null;
+  title: string;
 }) => {
-
   const [frame, setFrame] = useState(0);
   const [isPause, setIsPause] = useState(false);
   const [speed, setSpeed] = useState(500);
@@ -31,11 +30,8 @@ const SvgAnimation = ({
 
   useEffect(() => {
     if (framesList.length > 0 && !isPause) {
-      console.log("here");
       timer = setInterval(() => {
-        console.log("what is this", frame);
         setFrame((n) => {
-          console.log(n);
           return (n + 1) % framesList.length;
         });
       }, speed);

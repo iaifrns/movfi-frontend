@@ -25,19 +25,19 @@ Files
 app/dashboard/page.tsx */
 
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { DataTable } from "@/components/data-table";
 import { SectionCards } from "@/components/section-cards";
 
 import LoadingPage from "@/components/LoadingPage";
 import { dataContext } from "@/hooks/useContext";
 import { useContext, useEffect, useState } from "react";
-import { checkFishAndFileData } from "../fileData/services/getDataFile";
-import data from "./data.json";
-import { getOneActivity } from "./services/getOneActivity";
+import { checkFishFileDataAndJointPoints } from "../fileData/services/getDataFile";
 import SvgAnimation from "../visualization/components/svgAnimation";
+import { getOneActivity } from "./services/getOneActivity";
+import JointAngles from "./components/jointAngles";
 
 export default function Dashaboard() {
   const [loading, setLoading] = useState(true);
+  const [jointPoints, setJointPoints] = useState<[]>([]);
 
   const { activity, setActivity, fileData, setFileData, fish, setFish } =
     useContext(dataContext);
@@ -52,12 +52,12 @@ export default function Dashaboard() {
   useEffect(() => {
     if (activity.id.length > 3) {
       setLoading(true);
-      checkFishAndFileData(
+      checkFishFileDataAndJointPoints(
         fish.id,
-        fileData?.id,
         activity.id,
         setFish,
         setFileData,
+        setJointPoints,
       ).then(() => {
         setLoading(false);
       });
@@ -70,15 +70,18 @@ export default function Dashaboard() {
 
   return (
     <>
-      <SectionCards />
+      <SectionCards jointPoints={jointPoints} data={fileData?.data} />
       <div className="px-4 lg:px-6">
-        <ChartAreaInteractive fileData={fileData?.data || []} fishId={fish.id} />
+        <ChartAreaInteractive
+          fileData={fileData?.data || []}
+          fishId={fish.id}
+        />
       </div>
       <SvgAnimation
         fileData={fileData}
         title="Annimated Fish Movement With Full Data"
       />
-      {/* <DataTable data={data} /> */}
+      <JointAngles data={fileData?.data} joints={jointPoints} />
     </>
   );
 }
