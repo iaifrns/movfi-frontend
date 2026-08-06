@@ -1,5 +1,6 @@
 import React from "react";
 import { getJointAngles } from "../services/jointAngles";
+import { getCurvatures } from "../services/curvature";
 
 type JointTableProps = {
   data: Record<string, number[]>;
@@ -30,7 +31,7 @@ const JointAngleTable: React.FC<JointTableProps> = ({ data, option }) => {
 
             {Array.from({ length: maxJoints }).map((_, index) => (
               <th key={index} className="border px-4 py-2 text-left">
-                Angle {index + 1}
+                {option == 2 ? "Curvature" : "Angle"} {index + 1}
               </th>
             ))}
           </tr>
@@ -44,7 +45,7 @@ const JointAngleTable: React.FC<JointTableProps> = ({ data, option }) => {
               {Array.from({ length: maxJoints }).map((_, index) => (
                 <td key={index} className="border px-4 py-2">
                   {joints[index] !== undefined
-                    ? `${getAngle(joints[index]).toFixed(2)}°`
+                    ? `${getAngle(joints[index]).toFixed(2)} ${option != 2 ? "°" : ""}`
                     : "-"}
                 </td>
               ))}
@@ -64,30 +65,49 @@ const JointAngles = ({
   joints: [];
 }) => {
   const [jointAngles, setJointAngles] = React.useState<Record<string, any>>({});
+  const [curvature, setCurvature] = React.useState<Record<string, any>>({});
   const [tableOption, setTableOption] = React.useState(0);
+
   React.useEffect(() => {
     if (!data || data.length === 0 || joints.length === 0) {
       console.log("No data or joints available");
       return;
     }
     setJointAngles(getJointAngles(data, joints));
+    setCurvature(getCurvatures(data, joints));
   }, []);
+
   return (
     <div className="flex flex-col gap-4 mx-6">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center max-md:flex-col gap-2">
         <p className="font-semibold text-lg">
-            {tableOption === 0 ? "Joint Angles Table" : "Bending Angles Table"}
+          {tableOption === 0 ? "Joint Angles Table" : "Bending Angles Table"}
         </p>
-        <select
-          className="border rounded-lg p-2"
-          defaultValue={0}
-          onChange={(e) => setTableOption(Number(e.target.value))}
-        >
-          <option value={0}>Joint Angles</option>
-          <option value={1}>Bending Angle</option>
-        </select>
+        <div className="flex gap-2">
+          <button
+            className={`border rounded-md p-2 w-35 cursor-pointer ${tableOption == 0 && "bg-primary text-white"}`}
+            onClick={() => setTableOption(0)}
+          >
+            Joint Angles
+          </button>
+          <button
+            className={`border rounded-md p-2 w-35 cursor-pointer ${tableOption == 1 && "bg-primary text-white"}`}
+            onClick={() => setTableOption(1)}
+          >
+            Bending Angle
+          </button>
+          <button
+            className={`border rounded-md p-2 w-35 cursor-pointer ${tableOption == 2 && "bg-primary text-white"}`}
+            onClick={() => setTableOption(2)}
+          >
+            Curvature
+          </button>
+        </div>
       </div>
-      <JointAngleTable data={jointAngles} option={tableOption} />
+      <JointAngleTable
+        data={tableOption < 2 ? jointAngles : curvature}
+        option={tableOption}
+      />
     </div>
   );
 };

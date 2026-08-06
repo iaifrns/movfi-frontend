@@ -1,6 +1,8 @@
 "use client";
 
 import { getSegmentationLength } from "@/app/dashboard/services/segmentationLength";
+import { swimmingSpeed } from "@/app/dashboard/services/swimmingSpeed";
+import { getTailBeatAmplitude } from "@/app/dashboard/services/tailBeatAmplitude";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -14,7 +16,7 @@ import { TrendingUpIcon, TrendingDownIcon } from "lucide-react";
 
 export function SectionCards({ jointPoints, data }: { jointPoints: [], data?: Record<string, any>[] }) {
   return (
-    <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
+    <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Segmentation Length</CardDescription>
@@ -40,47 +42,31 @@ export function SectionCards({ jointPoints, data }: { jointPoints: [], data?: Re
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
+          <CardDescription>Tail Beat Amplitude</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {data ? getTailBeatAmplitude(data[data.length-1]) : 0} cm
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <TrendingDownIcon />
-              -20%
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <TrendingDownIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Acquisition needs attention
+            This shows How far does the tail move from one side to the other during swimming
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
+          <CardDescription>Swimming speed</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
+            {data ? swimmingSpeed(data[0]) : 0} BL/s
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <TrendingUpIcon />
-              +12.5%
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <TrendingUpIcon className="size-4" />
+            This shows How fast is the fish is moving forward
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
         </CardFooter>
       </Card>
-      <Card className="@container/card">
+      {/* <Card className="@container/card">
         <CardHeader>
           <CardDescription>Growth Rate</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -99,7 +85,7 @@ export function SectionCards({ jointPoints, data }: { jointPoints: [], data?: Re
           </div>
           <div className="text-muted-foreground">Meets growth projections</div>
         </CardFooter>
-      </Card>
+      </Card> */}
     </div>
   );
 }
