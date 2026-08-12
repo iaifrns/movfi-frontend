@@ -1,14 +1,21 @@
 import { supabase } from "@/client/supabase";
-import { quickSetupUrl, supabaseBucket } from "@/constant/endpoints";
+import { quickSetup2Url, quickSetupUrl, supabaseBucket } from "@/constant/endpoints";
+import type { SimulatedData } from "@/types/fish";
 import * as XLSX from "xlsx";
 
 type Fish = {
   name: string;
   species: string;
-  note: string;
   behavior: string;
   weight: number;
   length: number;
+
+  body_points?: number;
+  fps?: number;
+  duration?: number;
+  max_amplitude?: number;
+  tail_beat_frequency?: number;
+  wave_length?: number;
 };
 
 interface FishData {
@@ -198,10 +205,35 @@ const quickStartEndPoint = async (
   }
 };
 
+const quickStartEndPoint2 = async (bodyData: {
+  fish: Fish;
+  activity: { name: string; description: string };
+}) => {
+  console.log("it is on the api call")
+  try {
+    const response = await fetch(quickSetup2Url, {
+      method: "Post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        activity: { ...bodyData.activity, user_id: 1 },
+        fish: { ...bodyData.fish, activity_id: "0" },
+      }),
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const quickStart = async (
   active: { name: string; description: string },
   fish: Fish,
-  file: File,
+  extraData: File | SimulatedData,
   setProgress: (v: string) => void,
   setData: (active: any, fish: any, fileData: any) => void,
 ) => {
@@ -214,63 +246,91 @@ export const quickStart = async (
     data = { ...data, activity: v };
   }); */
 
-  setProgress(`Processing file ${file.name} ...`);
-  const result = await parseExcel(file);
-  setProgress("Checking if all frames has a X and Y axeses");
+  if (extraData instanceof File) {
+    const file = extraData as File;
+    setProgress(`Processing file ${file.name} ...`);
+    const result = await parseExcel(file);
+    setProgress("Checking if all frames has a X and Y axeses");
 
-  console.log(result.headers, result.data);
+    console.log(result.headers, result.data);
 
-  if (checkXYStructure(result.headers)) {
-    console.log("right here");
-    setProgress("Checking for missing values ...");
-    const res = checkMissingValues(result.data, result.headers);
-    if (res.missingCount == 0) {
-      setProgress("Process Uploading file ...");
-      const { data: response, error } = await supabase.storage
-        .from(supabaseBucket)
-        .upload(`${data.activity.user_id}/${active.name}/${file.name}`, file);
+    if (checkXYStructure(result.headers)) {
+      console.log("right here");
+      setProgress("Checking for missing values ...");
+      const res = checkMissingValues(result.data, result.headers);
+      if (res.missingCount == 0) {
+        setProgress("Process Uploading file ...");
+        const { data: response, error } = await supabase.storage
+          .from(supabaseBucket)
+          .upload(`${data.activity.user_id}/${active.name}/${file.name}`, file);
 
-      if (error) {
-        console.log(error);
-        alert(error.message);
-      } else {
-        console.log(response);
-        setProgress("Processing creation of the Fish information ...");
+        if (error) {
+          console.log(error);
+          alert(error.message);
+        } else {
+          console.log(response);
+          setProgress("Processing creation of the Fish information ...");
 
-        /* await createFish(
+          /* await createFish(
             { ...fish, activity_id: data.activity.id, file: response },
             (v) => (data = { ...data, fish: v }),
           ); */
 
-        const responseData = await quickStartEndPoint(
-          {
-            fish: fish,
-            activity: active,
-            file_data: { file_name: file.name, data: result.data },
-          },
-          response,
-        );
-
-        if (responseData.activity) {
-          setData(
-            responseData.activity,
-            responseData.fish,
-            responseData.file_data,
+          const responseData = await quickStartEndPoint(
+            {
+              fish: {
+                ...fish,
+                duration: fish.duration || 0,
+                fps: fish.fps || 0,
+                body_points: fish.body_points || 0,
+                max_amplitude: fish.max_amplitude || 0,
+                tail_beat_frequency: fish.tail_beat_frequency || 0,
+                wave_length: fish.wave_length || 0,
+              },
+              activity: active,
+              file_data: { file_name: file.name, data: result.data },
+            },
+            response,
           );
-        } else {
-          const { error } = await supabase.storage
-            .from(supabaseBucket)
-            .remove([file.name, response.path, response.fullPath]);
 
-          if (error) {
-            console.log(error);
+          if (responseData.activity) {
+            setData(
+              responseData.activity,
+              responseData.fish,
+              responseData.file_data,
+            );
+          } else {
+            const { error } = await supabase.storage
+              .from(supabaseBucket)
+              .remove([file.name, response.path, response.fullPath]);
+
+            if (error) {
+              console.log(error);
+            }
           }
         }
       }
+    } else {
+      alert(
+        "The structure of the file is not correct it lakes some x and y axises of some frames",
+      );
     }
   } else {
-    alert(
-      "The structure of the file is not correct it lakes some x and y axises of some frames",
-    );
+    const responseData = await quickStartEndPoint2({
+      fish: {
+        ...fish,
+        duration: fish.duration || 5,
+        fps: fish.fps || 30,
+        body_points: fish.body_points || 100,
+        max_amplitude: fish.max_amplitude || 5,
+        tail_beat_frequency: fish.tail_beat_frequency || 2,
+        wave_length: fish.wave_length || 1.2,
+      },
+      activity: active,
+    });
+
+    if (responseData.activity) {
+      setData(responseData.activity, responseData.fish, responseData.file_data);
+    }
   }
 };

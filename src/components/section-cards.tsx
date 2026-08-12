@@ -47,7 +47,7 @@ export function SectionCards({ jointPoints, data }: { jointPoints: [], data?: Re
             {data ? getTailBeatAmplitude(data[data.length-1]) : 0} cm
           </CardTitle>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="flex-col items-start gap-1.5 text-sm h-full">
           <div className="line-clamp-1 flex gap-2 font-medium">
             This shows How far does the tail move from one side to the other during swimming
           </div>
@@ -60,7 +60,7 @@ export function SectionCards({ jointPoints, data }: { jointPoints: [], data?: Re
             {data ? swimmingSpeed(data[0]) : 0} BL/s
           </CardTitle>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+        <CardFooter className="flex-col items-start gap-1.5 text-sm h-full">
           <div className="line-clamp-1 flex gap-2 font-medium">
             This shows How fast is the fish is moving forward
           </div>

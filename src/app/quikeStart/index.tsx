@@ -9,6 +9,7 @@ import UploadData from "./components/UploadData";
 import { quickStart } from "./services/quickStart";
 import { dataContext } from "@/hooks/useContext";
 import { Dashboard } from "@/constant/routs";
+import type { SimulatedData } from "@/types/fish";
 
 export type Activiy = {
   name: string;
@@ -17,7 +18,6 @@ export type Activiy = {
 
 export type Fish = {
   name: string;
-  note: string;
   behavior: string;
   weight: number;
   length: number;
@@ -37,7 +37,6 @@ const QuickCreatePage = () => {
     },
     fish: {
       name: "",
-      note: "",
       behavior: "",
       species: "",
       weight: 0,
@@ -56,12 +55,13 @@ const QuickCreatePage = () => {
   const handleOnActivityChange = (activity: Activiy) =>
     setFormData({ ...formData, activity: activity });
 
-  const handleCreate = async (file: File) => {
+  const handleCreate = async (data: File | SimulatedData) => {
+    console.log("it has been clicked")
     setProcessing(true);
     quickStart(
       formData.activity,
       formData.fish,
-      file,
+      data,
       (v) => setProcessList([...processList, v]),
       handleValidation,
     ).then(() => {

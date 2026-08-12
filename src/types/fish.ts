@@ -29,3 +29,12 @@ export interface FileDataStructure {
   last_accessed: Date;
   access_count: number;
 }
+
+export interface SimulatedData {
+  fps: number;
+  duration: number;
+  body_points: number;
+  max_amplitude: number;
+  tail_beat_frequency: number;
+  wave_length: number;
+}

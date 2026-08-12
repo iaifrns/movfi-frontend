@@ -101,19 +101,6 @@ const FishFrom = ({
           onChange={e=>setFish({...fish, behavior: e.target.value})}
         />
       </div>
-      <div className="w-full flex flex-col gap-1">
-        <label htmlFor="activityDescription" className="text-sm font-semibold">
-          Notes (optional)
-        </label>
-        <textarea
-          id="activityDescription"
-          name="activityDescription"
-          placeholder="Enter activity description"
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-          value={fish.note}
-          onChange={e=>setFish({...fish, note: e.target.value})}
-        />
-      </div>
       {/* end of the form */}
       <div className="w-full flex justify-between mt-4">
         <button
