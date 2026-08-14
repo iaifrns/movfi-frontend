@@ -18,12 +18,20 @@ const distance = (
   return Math.sqrt((pointB.x - pointA.x) ** 2 + (pointB.y - pointA.y) ** 2);
 };
 
-export const getCurvatures = (data: Record<string, any>[], joints: []) => {
+export const getCurvatures = (
+  data: Record<string, any>[],
+  joints: [],
+  page: number,
+) => {
   const frames = Object.keys(data[0])
     .filter((key) => key.endsWith("x"))
     .map((key) => key.slice(0, -1));
 
-  const newJoints = [0, ...joints, data.length - 1];
+  const newJoints = [
+    0,
+    ...joints.filter((i) => (page + 1) * 15 > i),
+    data.length - 1,
+  ];
   const curvatures: Record<string, any> = {};
 
   for (let i = 0; i < frames.length; i++) {

@@ -14,14 +14,14 @@ import {
 } from "@/components/ui/card";
 import { TrendingUpIcon } from "lucide-react";
 
-export function SectionCards({ jointPoints, data }: { jointPoints: [], data?: Record<string, any>[] }) {
+export function SectionCards({ jointPoints, seg_length, data }: { jointPoints: [], seg_length: number, data?: Record<string, any>[] }) {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card">
         <CardHeader>
           <CardDescription>Segmentation Length</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {jointPoints.length > 0 && data ? getSegmentationLength(data, jointPoints) : 0}
+            {seg_length ? seg_length : 0}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">

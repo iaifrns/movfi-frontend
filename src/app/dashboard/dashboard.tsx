@@ -38,6 +38,8 @@ import JointAngles from "./components/jointAngles";
 export default function Dashaboard() {
   const [loading, setLoading] = useState(true);
   const [jointPoints, setJointPoints] = useState<[]>([]);
+  const [seg_length, setSeg_length] = useState(0)
+  const [page, setPage] = useState(0)
 
   const { activity, setActivity, fileData, setFileData, fish, setFish } =
     useContext(dataContext);
@@ -49,6 +51,11 @@ export default function Dashaboard() {
     }
   }, []);
 
+  const handleJointsSegments = (result: any) => {
+    setJointPoints(result.joints)
+    setSeg_length(result.segementation_length)
+  }
+
   useEffect(() => {
     if (activity.id.length > 3) {
       setLoading(true);
@@ -57,7 +64,7 @@ export default function Dashaboard() {
         activity.id,
         setFish,
         setFileData,
-        setJointPoints,
+        handleJointsSegments,
       ).then(() => {
         setLoading(false);
       });
@@ -70,18 +77,18 @@ export default function Dashaboard() {
 
   return (
     <>
-      <SectionCards jointPoints={jointPoints} data={fileData?.data} />
+      <SectionCards jointPoints={jointPoints} data={fileData?.data} seg_length={seg_length} />
       <div className="px-4 lg:px-6">
         <ChartAreaInteractive
           fileData={fileData?.data || []}
           fishId={fish.id}
         />
       </div>
-      <SvgAnimation
+      {/* <SvgAnimation
         fileData={fileData}
         title="Annimated Fish Movement With Full Data"
-      />
-      <JointAngles data={fileData?.data} joints={jointPoints} />
+      /> */}
+      <JointAngles data={fileData?.data} joints={jointPoints} page={page} />
     </>
   );
 }

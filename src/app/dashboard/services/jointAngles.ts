@@ -19,12 +19,20 @@ const getAngle = (
   return Math.acos(cosTheta) * (180 / Math.PI); // Convert to degrees
 };
 
-export const getJointAngles = (data: Record<string, any>[], joints: []) => {
+export const getJointAngles = (
+  data: Record<string, any>[],
+  joints: [],
+  page: number,
+) => {
   const frames = Object.keys(data[0])
     .filter((key) => key.endsWith("x"))
     .map((key) => key.slice(0, -1));
 
-  const newJoints = [0, ...joints, data.length - 1];
+  const newJoints = [
+    0,
+    ...joints.filter((i) => (page + 1) * 15 > i),
+    data.length - 1,
+  ];
   const angles: Record<string, any> = {};
 
   for (let i = 0; i < frames.length; i++) {
