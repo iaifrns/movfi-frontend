@@ -59,8 +59,7 @@ const JointAngleTable: React.FC<JointTableProps> = ({ data, option }) => {
 
 const JointAngles = ({
   data,
-  joints,
-  page,
+  joints
 }: {
   data?: Record<string, any>[];
   joints: [];
@@ -75,8 +74,8 @@ const JointAngles = ({
       console.log("No data or joints available");
       return;
     }
-    setJointAngles(getJointAngles(data, joints, page));
-    setCurvature(getCurvatures(data, joints, page));
+    setJointAngles(getJointAngles(data, joints));
+    setCurvature(getCurvatures(data, joints));
   }, []);
 
   return (

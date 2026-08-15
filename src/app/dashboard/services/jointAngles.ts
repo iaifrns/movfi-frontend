@@ -22,7 +22,6 @@ const getAngle = (
 export const getJointAngles = (
   data: Record<string, any>[],
   joints: [],
-  page: number,
 ) => {
   const frames = Object.keys(data[0])
     .filter((key) => key.endsWith("x"))
@@ -30,7 +29,7 @@ export const getJointAngles = (
 
   const newJoints = [
     0,
-    ...joints.filter((i) => (page + 1) * 15 > i),
+    ...joints,
     data.length - 1,
   ];
   const angles: Record<string, any> = {};
