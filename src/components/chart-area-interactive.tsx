@@ -1,9 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
+import { selectData } from "@/app/dashboard/services/rearrangeData";
 import { seperateXfromY } from "@/app/dashboard/services/seprateXfromY";
+import LoadingIcon from "@/assets/icons/loading";
 import {
   Card,
   CardAction,
@@ -26,13 +28,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { generateDistinctColors } from "@/service/generateColors";
-import LoadingIcon from "@/assets/icons/loading";
-import {
-  reArrangeData,
-  selectData,
-} from "@/app/dashboard/services/rearrangeData";
+import { getPaginatedData } from "@/service/getPaginatedData";
 
 export const description = "An interactive area chart";
 
@@ -53,13 +50,14 @@ const chartConfig = {
 export function ChartAreaInteractive({
   fileData,
   fishId,
-  count
+  count,
+  fileId,
 }: {
   fileData: Record<string, any>[];
   fishId: string;
-  count: number
+  count: number;
+  fileId: string;
 }) {
-  const isMobile = useIsMobile();
   const [timeRange, setTimeRange] = React.useState("90d");
   const [axises, setAxises] = React.useState<{
     x_axis: string[];
@@ -70,64 +68,53 @@ export function ChartAreaInteractive({
   });
   const [colors, setColors] = React.useState<string[]>([]);
   const [isGraphLoading, setIsGraphLoading] = React.useState(false);
+  const [copyData, setCopyData] = React.useState(fileData);
   const [displayData, setDisplayData] = React.useState(fileData);
-  const [joinDatas, setJointDatas] = React.useState({});
+  /* const [joinDatas, setJointDatas] = React.useState({}); */
   const [allJoinPoints, setAllJointPoints] = React.useState<[]>([]);
+  const [page, setPage] = React.useState(1);
+  const [isFirstTime, setIsFirstTime] = React.useState(true);
 
   React.useEffect(() => {
-    setAxises(seperateXfromY(displayData[0]));
-    setColors(generateDistinctColors(Object.keys(displayData[0]).length));
+    if (displayData.length > 0) {
+      setAxises(seperateXfromY(displayData[0]));
+      setColors(generateDistinctColors(Object.keys(displayData[0]).length));
+    }
   }, [displayData]);
 
   React.useEffect(() => {
-    if (isMobile) {
-      setTimeRange("7d");
+    if (!isFirstTime) {
+      setIsGraphLoading(true);
+      getPaginatedData(fileId, page, (v) => {
+        setDisplayData(v);
+        setCopyData(v);
+      }).then(() => setIsGraphLoading(false));
+    } else {
+      setIsFirstTime(false);
     }
-  }, [isMobile]);
+  }, [page]);
 
-  const handleGetEachFrameJoint = () => {
+  /* const handleGetEachFrameJoint = () => {
     setIsGraphLoading(true);
     reArrangeData(
       fishId,
-      fileData,
+      displayData,
       setDisplayData,
       joinDatas,
       setJointDatas,
     ).then(() => setIsGraphLoading(false));
-  };
+  }; */
 
   const handleUseJointPoint = () => {
     setIsGraphLoading(true);
     selectData(
       fishId,
       setDisplayData,
-      fileData,
+      displayData,
       allJoinPoints,
       setAllJointPoints,
     ).then(() => setIsGraphLoading(false));
   };
-
-  /* const filteredData = chartData.filter((item) => {
-    const date = new Date(item.date);
-    const referenceDate = new Date("2024-06-30");
-    let daysToSubtract = 90;
-    if (timeRange === "30d") {
-      daysToSubtract = 30;
-    } else if (timeRange === "7d") {
-      daysToSubtract = 7;
-    }
-    const startDate = new Date(referenceDate);
-    startDate.setDate(startDate.getDate() - daysToSubtract);
-    return date >= startDate;
-  }); */
-
-  /*  if (isGraphLoading) {
-    return (
-      <div className="flex w-full h-105 justify-center items-center border rounded-md">
-        <LoadingIcon w="32px" h="32px" />
-      </div>
-    );
-  } */
 
   return (
     <Card className="@container/card">
@@ -151,13 +138,13 @@ export function ChartAreaInteractive({
           >
             <ToggleGroupItem
               value="90d"
-              onClick={() => setDisplayData(fileData)}
+              onClick={() => setDisplayData(copyData)}
             >
               Orinal Data
             </ToggleGroupItem>
-            <ToggleGroupItem value="30d" onClick={handleGetEachFrameJoint}>
+            {/* <ToggleGroupItem value="30d" onClick={handleGetEachFrameJoint}>
               Joint points of every frame
-            </ToggleGroupItem>
+            </ToggleGroupItem> */}
             <ToggleGroupItem value="7d" onClick={handleUseJointPoint}>
               General joint points
             </ToggleGroupItem>
@@ -244,10 +231,24 @@ export function ChartAreaInteractive({
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <div className="flex items-center justify-end w-full px-6">
-        <button className="p-2 border rounded-md">Prev</button>
-        <p className="text-lg">1...10</p>
-        <button className="p-2 border rounded-md">Next</button>
+      <div className="flex items-center justify-end w-full px-6 gap-1">
+        <button
+          className="p-2 border rounded-md cursor-pointer bg-border disabled:bg-transparent disabled:cursor-auto"
+          disabled={page < 2}
+          onClick={() => setPage(page - 1)}
+        >
+          Prev
+        </button>
+        <p className="text-lg">
+          {page}...{Math.round(count / 10)}
+        </p>
+        <button
+          className="p-2 border rounded-md bg-border cursor-pointer disabled:bg-transparent disabled:cursor-auto"
+          disabled={page == Math.round(count / 10)}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
       </div>
     </Card>
   );

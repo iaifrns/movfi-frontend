@@ -1,6 +1,8 @@
 import React from "react";
-import { getJointAngles } from "../services/jointAngles";
 import { getCurvatures } from "../services/curvature";
+import { getJointAngles } from "../services/jointAngles";
+import { getPaginatedData } from "@/service/getPaginatedData";
+import LoadingIcon from "@/assets/icons/loading";
 
 type JointTableProps = {
   data: Record<string, number[]>;
@@ -59,24 +61,44 @@ const JointAngleTable: React.FC<JointTableProps> = ({ data, option }) => {
 
 const JointAngles = ({
   data,
-  joints
+  joints,
+  count,
+  fileId
 }: {
   data?: Record<string, any>[];
   joints: [];
-  page: number;
+  count: number;
+  fileId: string
 }) => {
   const [jointAngles, setJointAngles] = React.useState<Record<string, any>>({});
   const [curvature, setCurvature] = React.useState<Record<string, any>>({});
   const [tableOption, setTableOption] = React.useState(0);
+  const [displayData, setDisplayData] = React.useState<
+    Record<string, any>[] | undefined
+  >(data);
+  const [isFirst, setIsFirst] = React.useState(true);
+  const [page, setPage] = React.useState(1);
+  const [isLoading, setIsLoading] = React.useState(false)
 
   React.useEffect(() => {
-    if (!data || data.length === 0 || joints.length === 0) {
+    if (!displayData || displayData.length === 0 || joints.length === 0) {
       console.log("No data or joints available");
       return;
     }
-    setJointAngles(getJointAngles(data, joints));
-    setCurvature(getCurvatures(data, joints));
-  }, []);
+    setJointAngles(getJointAngles(displayData, joints));
+    setCurvature(getCurvatures(displayData, joints));
+  }, [displayData]);
+
+  React.useEffect(() => {
+    if (!isFirst) {
+      setIsLoading(true)
+      getPaginatedData(fileId, page, (v) => {
+        setDisplayData(v);
+      }).then(() => setIsLoading(false));
+    } else {
+      setIsFirst(false);
+    }
+  }, [page]);
 
   return (
     <div className="flex flex-col gap-4 mx-6">
@@ -105,10 +127,30 @@ const JointAngles = ({
           </button>
         </div>
       </div>
+      {isLoading && <div className="w-full flex justify-center items-center"><LoadingIcon /><p>Loading ...</p></div>}
       <JointAngleTable
         data={tableOption < 2 ? jointAngles : curvature}
         option={tableOption}
       />
+      <div className="flex items-center justify-end w-full px-6 gap-1">
+        <button
+          className="p-2 border rounded-md cursor-pointer bg-border disabled:bg-transparent disabled:cursor-auto"
+          disabled={page < 2}
+          onClick={() => setPage(page - 1)}
+        >
+          Prev
+        </button>
+        <p className="text-lg">
+          {page}...{Math.round(count / 10)}
+        </p>
+        <button
+          className="p-2 border rounded-md bg-border cursor-pointer disabled:bg-transparent disabled:cursor-auto"
+          disabled={page == Math.round(count / 10)}
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

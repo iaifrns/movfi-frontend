@@ -66,7 +66,8 @@ export const selectData = async (
 ) => {
   let joinPoints = joints;
   if(joinPoints.length < 1){
-    joinPoints = await getGeneralJointPoint(fishId);
+    const result = await getGeneralJointPoint(fishId);
+    joinPoints = result.joints
     setJoints(joinPoints)
   }
   const newList: Record<string, any>[] = [];

@@ -6,13 +6,17 @@ import SpeedUpIcon from "@/assets/icons/speedUp";
 import type { FileDataStructure } from "@/types/fish";
 import { useEffect, useMemo, useState } from "react";
 import { animationPoints } from "../services/animationPoints";
+import { visualization } from "@/constant/routs";
+import { useNavigate } from "react-router";
 
 const SvgAnimation = ({
   fileData,
   title,
+  isDashboard = false,
 }: {
   fileData: FileDataStructure | null;
   title: string;
+  isDashboard?: boolean;
 }) => {
   const [frame, setFrame] = useState(0);
   const [isPause, setIsPause] = useState(false);
@@ -21,6 +25,7 @@ const SvgAnimation = ({
   const [framesList, setFramesList] = useState<string[]>([]);
 
   let timer = 0;
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (fileData?.data) {
@@ -58,6 +63,18 @@ const SvgAnimation = ({
   return (
     <div className="mx-6 flex flex-col gap-2">
       <p className="font-semibold text-lg">{title}</p>
+      {isDashboard && (
+        <p>
+          The animation of the fish below is made only with part of the data, to
+          view the animation with all the data go to{" "}
+          <span
+            className="text-primary font-semibold cursor-pointer underline"
+            onClick={() => navigate(visualization)}
+          >
+            visualization page
+          </span>
+        </p>
+      )}
       <div className="flex flex-col gap-2 border rounded-md py-2 px-1">
         <svg className="w-full h-80">
           <polyline

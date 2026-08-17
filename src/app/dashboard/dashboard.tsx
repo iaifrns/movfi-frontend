@@ -32,16 +32,15 @@ import { dataContext } from "@/hooks/useContext";
 import { useContext, useEffect, useState } from "react";
 import { checkFishFileDataAndJointPoints } from "../fileData/services/getDataFile";
 import SvgAnimation from "../visualization/components/svgAnimation";
-import { getOneActivity } from "./services/getOneActivity";
 import JointAngles from "./components/jointAngles";
+import { getOneActivity } from "./services/getOneActivity";
 
 export default function Dashaboard() {
   const [loading, setLoading] = useState(true);
   const [jointPoints, setJointPoints] = useState<[]>([]);
-  const [seg_length, setSeg_length] = useState(0)
-  const [tailAmplitude, setTailAmplitude] = useState(0)
-  const [page, setPage] = useState(0)
-  const [count, setCount] = useState(0)
+  const [seg_length, setSeg_length] = useState(0);
+  const [tailAmplitude, setTailAmplitude] = useState(0);
+  const [count, setCount] = useState(0);
 
   const { activity, setActivity, fileData, setFileData, fish, setFish } =
     useContext(dataContext);
@@ -54,10 +53,10 @@ export default function Dashaboard() {
   }, []);
 
   const handleJointsSegments = (result: any) => {
-    setJointPoints(result.joints)
-    setSeg_length(result.segementation_length)
-    setTailAmplitude(result.tail_amplitude)
-  }
+    setJointPoints(result.joints);
+    setSeg_length(result.segementation_length);
+    setTailAmplitude(result.tail_amplitude);
+  };
 
   useEffect(() => {
     if (activity.id.length > 3) {
@@ -68,7 +67,7 @@ export default function Dashaboard() {
         setFish,
         setFileData,
         handleJointsSegments,
-        setCount
+        setCount,
       ).then(() => {
         setLoading(false);
       });
@@ -81,19 +80,26 @@ export default function Dashaboard() {
 
   return (
     <>
-      <SectionCards jointPoints={jointPoints} data={fileData?.data} seg_length={seg_length} tailAmplitude={tailAmplitude} />
+      <SectionCards
+        jointPoints={jointPoints}
+        data={fileData?.data}
+        seg_length={seg_length}
+        tailAmplitude={tailAmplitude}
+      />
       <div className="px-4 lg:px-6">
         <ChartAreaInteractive
           fileData={fileData?.data || []}
           fishId={fish.id}
           count={count}
+          fileId={fileData?.id ?? ""}
         />
       </div>
       <SvgAnimation
         fileData={fileData}
         title="Annimated Fish Movement With Full Data"
+        isDashboard={true}
       />
-      <JointAngles data={fileData?.data} joints={jointPoints} page={page} />
+      <JointAngles data={fileData?.data} joints={jointPoints} fileId={fileData?.id ?? ""} count={count} />
     </>
   );
 }

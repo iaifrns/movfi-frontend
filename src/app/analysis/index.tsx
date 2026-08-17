@@ -9,6 +9,9 @@ import JointAngles from "../dashboard/components/jointAngles";
 const AnalysisPage = () => {
   const [loading, setLoading] = useState(true);
   const [jointPoints, setJointPoints] = useState<[]>([]);
+  const [count, setCount] = useState(0);
+  const [seg_length, setSeg_length] = useState(0);
+  const [tailAmplitude, setTailAmplitude] = useState(0);
 
   const { activity, setActivity, fileData, setFileData, fish, setFish } =
     useContext(dataContext);
@@ -28,12 +31,19 @@ const AnalysisPage = () => {
         activity.id,
         setFish,
         setFileData,
-        setJointPoints,
+        handleJointsSegments,
+        setCount,
       ).then(() => {
         setLoading(false);
       });
     }
   }, [activity]);
+
+  const handleJointsSegments = (result: any) => {
+    setJointPoints(result.joints);
+    setSeg_length(result.segementation_length);
+    setTailAmplitude(result.tail_amplitude);
+  };
 
   if (loading) {
     return <LoadingPage />;
@@ -41,9 +51,19 @@ const AnalysisPage = () => {
 
   return (
     <>
-      <SectionCards jointPoints={jointPoints} data={fileData?.data} />
+      <SectionCards
+        jointPoints={jointPoints}
+        data={fileData?.data}
+        seg_length={seg_length}
+        tailAmplitude={tailAmplitude}
+      />
 
-      <JointAngles data={fileData?.data} joints={jointPoints} />
+      <JointAngles
+        data={fileData?.data}
+        joints={jointPoints}
+        count={count}
+        fileId={fileData?.id || ""}
+      />
     </>
   );
 };

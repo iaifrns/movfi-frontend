@@ -1,18 +1,18 @@
 import LoadingPage from "@/components/LoadingPage";
 import { dataContext } from "@/hooks/useContext";
+import type { FileDataStructure } from "@/types/fish";
 import { useContext, useEffect, useState } from "react";
 import { getOneActivity } from "../dashboard/services/getOneActivity";
-import { checkFishAndFileData } from "../fileData/services/getDataFile";
-import SvgAnimation from "./components/svgAnimation";
 import { selectData } from "../dashboard/services/rearrangeData";
-import type { FileDataStructure } from "@/types/fish";
+import { checkFishAndGetAllFileData } from "../fileData/services/getDataFile";
+import SvgAnimation from "./components/svgAnimation";
 
 const VisualizationPage = () => {
-  const { fileData, setFileData, fish, setFish, activity, setActivity } =
-    useContext(dataContext);
+  const { fish, setFish, activity, setActivity } = useContext(dataContext);
   const [loading, setLoading] = useState(false);
   const [allJoinPoints, setAllJointPoints] = useState<[]>([]);
   const [displayData, setDisplayData] = useState<Record<string, any>[]>([]);
+  const [fileData, setFileData] = useState<FileDataStructure | null>(null);
 
   useEffect(() => {
     if (activity.id.length < 1) {
@@ -24,12 +24,13 @@ const VisualizationPage = () => {
   useEffect(() => {
     if (activity.id.length > 3) {
       setLoading(true);
-      checkFishAndFileData(
+      checkFishAndGetAllFileData(
         fish.id,
         fileData?.id,
         activity.id,
         setFish,
         setFileData,
+        (_: number) => {},
       ).then(() => {
         setLoading(false);
       });
