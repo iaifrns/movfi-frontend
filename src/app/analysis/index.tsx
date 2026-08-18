@@ -9,11 +9,10 @@ import JointAngles from "../dashboard/components/jointAngles";
 const AnalysisPage = () => {
   const [loading, setLoading] = useState(true);
   const [jointPoints, setJointPoints] = useState<[]>([]);
-  const [count, setCount] = useState(0);
   const [seg_length, setSeg_length] = useState(0);
   const [tailAmplitude, setTailAmplitude] = useState(0);
 
-  const { activity, setActivity, fileData, setFileData, fish, setFish } =
+  const { activity, setActivity, fileData, setFileData, fish, setFish, count, setCount } =
     useContext(dataContext);
 
   useEffect(() => {

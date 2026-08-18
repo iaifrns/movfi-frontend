@@ -2,26 +2,28 @@ import type { ActivityResponse } from "@/types/activity";
 import type { FileDataStructure } from "@/types/fish";
 import { createContext, useState, type ReactNode } from "react";
 
-interface ContextType{
-  activity: { id: string, name: string, description: string, user_id: number },
+interface ContextType {
+  activity: { id: string; name: string; description: string; user_id: number };
   fish: {
-    id: string,
-    name: string,
-    note: string,
-    behavior: string,
-    weight: number,
-    length: number,
-    activity_id: string,
+    id: string;
+    name: string;
+    note: string;
+    behavior: string;
+    weight: number;
+    length: number;
+    activity_id: string;
     file: {
       id: string;
       path: string;
       fullPath: string;
-    } | null,
-  },
-  setActivity: (_: ActivityResponse) => void,
-  setFish: (_: any) => void,
-  fileData: null | FileDataStructure,
-  setFileData: (_:null|FileDataStructure) => void
+    } | null;
+  };
+  setActivity: (_: ActivityResponse) => void;
+  setFish: (_: any) => void;
+  fileData: null | FileDataStructure;
+  setFileData: (_: null | FileDataStructure) => void;
+  count: number;
+  setCount: (_: number) => void;
 }
 
 export const dataContext = createContext<ContextType>({
@@ -34,12 +36,14 @@ export const dataContext = createContext<ContextType>({
     weight: 0,
     length: 0,
     activity_id: "",
-    file: null
+    file: null,
   },
   setActivity: (_: ActivityResponse) => {},
   setFish: (_: any) => {},
   fileData: null,
-  setFileData: (_:any) => {}
+  setFileData: (_: any) => {},
+  count: 0,
+  setCount: (_: number) => {},
 });
 
 const DataProvider = ({ children }: { children: ReactNode }) => {
@@ -61,7 +65,9 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
     file: null,
   });
 
-  const [fileData, setFileData] = useState<FileDataStructure|null>(null)
+  const [fileData, setFileData] = useState<FileDataStructure | null>(null);
+
+  const [count, setCount] = useState(0);
 
   return (
     <dataContext.Provider
@@ -71,7 +77,9 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
         setActivity: setActive,
         setFish,
         fileData,
-        setFileData
+        setFileData,
+        count,
+        setCount,
       }}
     >
       {children}

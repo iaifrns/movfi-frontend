@@ -41,9 +41,8 @@ export default function Dashaboard() {
   const [jointPoints, setJointPoints] = useState<[]>([]);
   const [seg_length, setSeg_length] = useState(0);
   const [tailAmplitude, setTailAmplitude] = useState(0);
-  const [count, setCount] = useState(0);
 
-  const { activity, setActivity, fileData, setFileData, fish, setFish } =
+  const { activity, setActivity, fileData, setFileData, fish, setFish, count, setCount } =
     useContext(dataContext);
 
   useEffect(() => {

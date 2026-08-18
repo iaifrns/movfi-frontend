@@ -8,12 +8,11 @@ import { checkFishAndGetAllFileData } from "../fileData/services/getDataFile";
 import SvgAnimation from "./components/svgAnimation";
 
 const VisualizationPage = () => {
-  const { fish, setFish, activity, setActivity } = useContext(dataContext);
+  const { fish, setFish, activity, setActivity, count, setCount } = useContext(dataContext);
   const [loading, setLoading] = useState(false);
   const [allJoinPoints, setAllJointPoints] = useState<[]>([]);
   const [displayData, setDisplayData] = useState<Record<string, any>[]>([]);
   const [fileData, setFileData] = useState<FileDataStructure | null>(null);
-  const [count, setCount] = useState(0)
 
   useEffect(() => {
     if (activity.id.length < 1) {

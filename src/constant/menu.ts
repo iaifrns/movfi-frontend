@@ -1,11 +1,12 @@
 import {
     ChartBarIcon,
+    FileChartColumnIcon,
     FolderIcon,
     LayoutDashboardIcon,
     ListIcon,
     UsersIcon
 } from "lucide-react";
-import { activityList, analysis, visualization } from "./routs";
+import { activityList, analysis, fileData, visualization } from "./routs";
 export const Menu = {
   dashboard: "Dashboard",
   quickStart: "Create Activity",
@@ -33,9 +34,9 @@ export const navMain = {
     url: activityList,
     icon: FolderIcon,
   },
-  'team':{
-    title: "Team",
-    url: "#",
-    icon: UsersIcon,
+  'fileData':{
+    title: "Fish Data File",
+    url: fileData,
+    icon: FileChartColumnIcon,
   },
 };

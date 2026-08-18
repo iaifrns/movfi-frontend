@@ -69,7 +69,7 @@ const SvgAnimation = ({
 
   const polylinePoints = useMemo(() => {
     if (Object.keys(points).length > 1) {
-      console.log(framesList)
+      //console.log(framesList)
       return points[framesList[frame]]
         .map((p) => `${p.x * xCordinate(count)},${200 - (p.y * YCordinate(count))}`)
         .join(" ");

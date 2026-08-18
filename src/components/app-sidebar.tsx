@@ -55,6 +55,7 @@ const routerConfig = {
   "/fish_file_data": {
     sideBarData: {
       ...navMain,
+      fileData: { ...navMain.fileData, active: true }
     },
   },
   [visualization]: {
@@ -74,7 +75,7 @@ const routerConfig = {
       ...navMain,
       activityList: { ...navMain.activityList, active: true },
     },
-  },
+  }
 };
 
 const data = {
