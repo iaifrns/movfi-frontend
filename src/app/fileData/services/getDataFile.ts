@@ -48,6 +48,7 @@ export const checkFishFileDataAndJointPoints = async (
   setJintPoints: (_: any) => void,
   setCount: (_: number) => void,
 ) => {
+  console.log(fishId, "this is the fishid")
   if (!fishId) {
     let fish: Fish;
     const fishs = await getFishByActivity(activityId);
@@ -61,7 +62,6 @@ export const checkFishFileDataAndJointPoints = async (
         getGeneralJointPoint(fish.id),
       ]).then(([fileDataList, joinPoints]) => {
         if (fileDataList[0]) {
-          console.log(fileDataList[0]);
           setFileData(fileDataList[0]);
           setCount(fileDataList[0].data_length);
         }

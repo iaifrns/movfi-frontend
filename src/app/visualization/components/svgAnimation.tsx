@@ -9,14 +9,36 @@ import { animationPoints } from "../services/animationPoints";
 import { visualization } from "@/constant/routs";
 import { useNavigate } from "react-router";
 
+const xCordinate = (len:number) => {
+  if(len < 30){
+    return 850
+  }else if(len < 60){
+    return 400
+  }else {
+    return len * 4
+  }
+}
+
+const YCordinate = (len:number) => {
+  if(len < 30){
+    return 800
+  }else if(len < 60){
+    return 400
+  }else {
+    return 16
+  }
+}
+
 const SvgAnimation = ({
   fileData,
   title,
   isDashboard = false,
+  count
 }: {
   fileData: FileDataStructure | null;
   title: string;
   isDashboard?: boolean;
+  count: number
 }) => {
   const [frame, setFrame] = useState(0);
   const [isPause, setIsPause] = useState(false);
@@ -47,8 +69,9 @@ const SvgAnimation = ({
 
   const polylinePoints = useMemo(() => {
     if (Object.keys(points).length > 1) {
+      console.log(framesList)
       return points[framesList[frame]]
-        .map((p) => `${p.x * 850},${200 - p.y * 800}`)
+        .map((p) => `${p.x * xCordinate(count)},${200 - (p.y * YCordinate(count))}`)
         .join(" ");
     }
   }, [points, frame]);

@@ -9,8 +9,6 @@ import { useNavigate, useParams } from "react-router";
 import DropDown, { Popup } from "./components/dropDown";
 import { updateFishData } from "@/service/updateFishData";
 import LoadingIcon from "@/assets/icons/loading";
-import { activityKey } from "@/constant/localStorage";
-import { Dashboard } from "@/constant/routs";
 
 const DetailActivity = () => {
   const { activityId } = useParams<{ activityId: string }>();
@@ -34,7 +32,7 @@ const DetailActivity = () => {
     max_amplitude: 0,
     tail_beat_frequency: 0,
     wave_length: 0,
-    file: null,
+    file: null
   });
 
   const handleSetFishInfo = (v: Fish[]) => {
@@ -64,18 +62,11 @@ const DetailActivity = () => {
       getFishByActivity(activityId || ""),
       getOneActivityById(activityId || "", setActivity),
     ]).then((data) => {
-      console.log(data[0]);
+      console.log(data[0])
       handleSetFishInfo(data[0]);
       setLoading(false);
     });
   }, []);
-
-  const handleSetACtivity = () => {
-    if (activityId) {
-      localStorage.setItem(activityKey, activityId);
-      navigate(Dashboard);
-    }
-  };
 
   if (loading) {
     return <LoadingPage />;
@@ -101,18 +92,10 @@ const DetailActivity = () => {
         >
           <BackIcon w="24px" h="24px" />
         </div>
-        <div className="flex gap-3 justify-center items-center">
-          <button
-            className="bg-primary p-2 rounded-md text-white font-semibold"
-            onClick={handleSetACtivity}
-          >
-            Use this Activity
-          </button>
-          <DropDown
-            setChangeFishInfo={setModifyFish}
-            setOpenModal={setOpenModal}
-          />
-        </div>
+        <DropDown
+          setChangeFishInfo={setModifyFish}
+          setOpenModal={setOpenModal}
+        />
       </div>
       <div className="mx-6 p-3 rounded-md border border-gray-300 shadow-lg flex flex-col gap-2">
         <p className="font-semibold text-lg">{activity?.name}</p>
@@ -191,106 +174,114 @@ const DetailActivity = () => {
             />
           </div>
 
-          {!fishInputs.file && (
-            <>
-              <div className="flex flex-col" key={fish.id + fish.body_points}>
-                <p className="font-semibold">
-                  Number of points along the body:
-                </p>
-                <input
-                  type="number"
-                  name="bodyPoints"
-                  id="bodyPoints"
-                  value={fishInputs.body_points}
-                  onChange={(e) =>
-                    setFishInputs({
-                      ...fishInputs,
-                      body_points: parseFloat(e.target.value),
-                    })
-                  }
-                  placeholder="No Information"
-                  className={`w-full focus:outline-0 border-b rounded-md p-2`}
-                  disabled
-                />
-              </div>
-              <div className="flex flex-col" key={fish.id + fish.duration}>
-                <p className="font-semibold">Duration (s):</p>
-                <input
-                  type="number"
-                  name="duration"
-                  id="duration"
-                  value={fishInputs.duration}
-                  onChange={(e) =>
-                    setFishInputs({
-                      ...fishInputs,
-                      duration: parseFloat(e.target.value),
-                    })
-                  }
-                  placeholder="No Information"
-                  className={`w-full focus:outline-0 border-b rounded-md p-2`}
-                  disabled
-                />
-              </div>
-              <div className="flex flex-col" key={fish.id + fish.fps}>
-                <p className="font-semibold">Frame per second (FPS):</p>
-                <input
-                  type="number"
-                  name="fsp"
-                  id="fsp"
-                  value={fishInputs.fps}
-                  onChange={(e) =>
-                    setFishInputs({
-                      ...fishInputs,
-                      fps: parseFloat(e.target.value),
-                    })
-                  }
-                  placeholder="No Information"
-                  className={`w-full focus:outline-0 border-b rounded-md p-2`}
-                  disabled
-                />
-              </div>
-              <div className="flex flex-col" key={fish.id + fish.max_amplitude}>
-                <p className="font-semibold">Max amplitude of the fish:</p>
-                <input
-                  type="number"
-                  name="fishWeight"
-                  id="fishWeight"
-                  value={fishInputs.max_amplitude}
-                  onChange={(e) =>
-                    setFishInputs({
-                      ...fishInputs,
-                      max_amplitude: parseFloat(e.target.value),
-                    })
-                  }
-                  placeholder="No Information"
-                  className={`w-full focus:outline-0 border-b rounded-md p-2`}
-                  disabled
-                />
-              </div>
-              <div
-                className="flex flex-col"
-                key={fish.id + fish.tail_beat_frequency}
-              >
-                <p className="font-semibold">Tail beat frequency:</p>
-                <input
-                  type="number"
-                  name="tailBeatFrequency"
-                  id="tailBeatFrequency"
-                  value={fishInputs.tail_beat_frequency}
-                  onChange={(e) =>
-                    setFishInputs({
-                      ...fishInputs,
-                      tail_beat_frequency: parseFloat(e.target.value),
-                    })
-                  }
-                  placeholder="No Information"
-                  className={`w-full focus:outline-0 border-b rounded-md p-2`}
-                  disabled
-                />
-              </div>
-            </>
-          )}
-
+          <div className="flex flex-col" key={fish.id + fish.weight}>
+            <p className="font-semibold">Number of points along the body:</p>
+            <input
+              type="number"
+              name="bodyPoints"
+              id="bodyPoints"
+              value={fishInputs.body_points}
+              onChange={(e) =>
+                setFishInputs({
+                  ...fishInputs,
+                  body_points: parseFloat(e.target.value),
+                })
+              }
+              placeholder="No Information"
+              className={`w-full focus:outline-0 ${modifyFish ? "border rounded-md" : "border-b"} rounded-md p-2`}
+              disabled={!modifyFish}
+            />
+          </div>
+          <div className="flex flex-col" key={fish.id + fish.weight}>
+            <p className="font-semibold">Duration:</p>
+            <input
+              type="number"
+              name="duration"
+              id="duration"
+              value={fishInputs.duration}
+              onChange={(e) =>
+                setFishInputs({
+                  ...fishInputs,
+                  duration: parseFloat(e.target.value),
+                })
+              }
+              placeholder="No Information"
+              className={`w-full focus:outline-0 ${modifyFish ? "border rounded-md" : "border-b"} rounded-md p-2`}
+              disabled={!modifyFish}
+            />
+          </div>
+          <div className="flex flex-col" key={fish.id + fish.weight}>
+            <p className="font-semibold">Frame per second (FPS):</p>
+            <input
+              type="number"
+              name="fsp"
+              id="fsp"
+              value={fishInputs.fps}
+              onChange={(e) =>
+                setFishInputs({
+                  ...fishInputs,
+                  fps: parseFloat(e.target.value),
+                })
+              }
+              placeholder="No Information"
+              className={`w-full focus:outline-0 ${modifyFish ? "border rounded-md" : "border-b"} rounded-md p-2`}
+              disabled={!modifyFish}
+            />
+          </div>
+          <div className="flex flex-col" key={fish.id + fish.weight}>
+            <p className="font-semibold">weight:</p>
+            <input
+              type="number"
+              name="fishWeight"
+              id="fishWeight"
+              value={fishInputs.max_amplitude}
+              onChange={(e) =>
+                setFishInputs({
+                  ...fishInputs,
+                  max_amplitude: parseFloat(e.target.value),
+                })
+              }
+              placeholder="No Information"
+              className={`w-full focus:outline-0 ${modifyFish ? "border rounded-md" : "border-b"} rounded-md p-2`}
+              disabled={!modifyFish}
+            />
+          </div>
+          <div className="flex flex-col" key={fish.id + fish.weight}>
+            <p className="font-semibold">weight:</p>
+            <input
+              type="number"
+              name="fishWeight"
+              id="fishWeight"
+              value={fishInputs.weight}
+              onChange={(e) =>
+                setFishInputs({
+                  ...fishInputs,
+                  weight: parseFloat(e.target.value),
+                })
+              }
+              placeholder="No Information"
+              className={`w-full focus:outline-0 ${modifyFish ? "border rounded-md" : "border-b"} rounded-md p-2`}
+              disabled={!modifyFish}
+            />
+          </div>
+          <div className="flex flex-col" key={fish.id + fish.weight}>
+            <p className="font-semibold">weight:</p>
+            <input
+              type="number"
+              name="fishWeight"
+              id="fishWeight"
+              value={fishInputs.weight}
+              onChange={(e) =>
+                setFishInputs({
+                  ...fishInputs,
+                  weight: parseFloat(e.target.value),
+                })
+              }
+              placeholder="No Information"
+              className={`w-full focus:outline-0 ${modifyFish ? "border rounded-md" : "border-b"} rounded-md p-2`}
+              disabled={!modifyFish}
+            />
+          </div>
           <div className="flex flex-col" key={fish.id + fish.behavior}>
             <p className="font-semibold">Behavior:</p>
             <input

@@ -1,0 +1,1 @@
+export const activityKey = "activity_key"

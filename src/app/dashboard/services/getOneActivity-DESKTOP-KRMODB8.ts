@@ -15,7 +15,8 @@ export const getOneActivity = async (setActivity: (v: any) => void) => {
   try {
     const activityId = localStorage.getItem(activityKey);
     console.log(activityId, "this is the activity key")
-    const data = await (await getActivity(activityId)).json()
+    const data = await getActivity(activityId)
+   
     setActivity(data);
   } catch (e) {
     console.log(e);

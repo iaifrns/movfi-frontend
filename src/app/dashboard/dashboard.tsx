@@ -34,6 +34,7 @@ import { checkFishFileDataAndJointPoints } from "../fileData/services/getDataFil
 import SvgAnimation from "../visualization/components/svgAnimation";
 import JointAngles from "./components/jointAngles";
 import { getOneActivity } from "./services/getOneActivity";
+import { activityKey } from "@/constant/localStorage";
 
 export default function Dashaboard() {
   const [loading, setLoading] = useState(true);
@@ -46,9 +47,14 @@ export default function Dashaboard() {
     useContext(dataContext);
 
   useEffect(() => {
-    if (activity.id.length < 1) {
+    const selectedActive = localStorage.getItem(activityKey)
+    if (!activity.id || activity.id.length < 1 || !activity.id.includes(selectedActive || '')) {
       setLoading(true);
+      setFileData(null)
+      setFish({id:''})
       getOneActivity(setActivity);
+    }else{
+      console.log(activity.id, "there is an activity")
     }
   }, []);
 
@@ -59,8 +65,10 @@ export default function Dashaboard() {
   };
 
   useEffect(() => {
-    if (activity.id.length > 3) {
+    const selectedActive = localStorage.getItem(activityKey)
+    if (activity.id.length > 3 && activity.id.includes(selectedActive || '')) {
       setLoading(true);
+      console.log(fish.id ? fish.id : "there is no fish id")
       checkFishFileDataAndJointPoints(
         fish.id,
         activity.id,
@@ -98,6 +106,7 @@ export default function Dashaboard() {
         fileData={fileData}
         title="Annimated Fish Movement With Full Data"
         isDashboard={true}
+        count={count}
       />
       <JointAngles data={fileData?.data} joints={jointPoints} fileId={fileData?.id ?? ""} count={count} />
     </>

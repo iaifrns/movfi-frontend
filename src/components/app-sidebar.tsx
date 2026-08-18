@@ -15,7 +15,12 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { navMain } from "@/constant/menu";
-import { analysis, fileData, visualization } from "@/constant/routs";
+import {
+  analysis,
+  detailActivity,
+  fileData,
+  visualization,
+} from "@/constant/routs";
 import { dataContext } from "@/hooks/useContext";
 import {
   CameraIcon,
@@ -62,6 +67,12 @@ const routerConfig = {
     sideBarData: {
       ...navMain,
       analysis: { ...navMain.analysis, active: true },
+    },
+  },
+  [detailActivity]: {
+    sideBarData: {
+      ...navMain,
+      activityList: { ...navMain.activityList, active: true },
     },
   },
 };

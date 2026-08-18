@@ -1,3 +1,4 @@
+import { activityKey } from "@/constant/localStorage";
 import { quickStart } from "@/constant/routs";
 import { dataContext } from "@/hooks/useContext";
 import { getActivity } from "@/service/checkActivity";
@@ -13,12 +14,21 @@ const ProtectingLayout = () => {
 
   useEffect(() => {
     getActivity(setLoading).then((data) => {
-      if(data.length == 0){
-        navigate(quickStart)
+      if (data.length == 0) {
+        navigate(quickStart);
       }
 
       setActivities(data);
-      setActivity(data[0]);
+      const selectedActivity = localStorage.getItem(activityKey);
+      if (
+        selectedActivity &&
+        data.filter((i: any) => i.id == selectedActivity).length > 0
+      ) {
+        setActivity(data.filter((i: any) => i.id == selectedActivity)[0]);
+      } else {
+        localStorage.setItem(activityKey, data[0].id)
+        setActivity(data[0]);
+      }
     });
   }, []);
 

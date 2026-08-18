@@ -13,6 +13,7 @@ const VisualizationPage = () => {
   const [allJoinPoints, setAllJointPoints] = useState<[]>([]);
   const [displayData, setDisplayData] = useState<Record<string, any>[]>([]);
   const [fileData, setFileData] = useState<FileDataStructure | null>(null);
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     if (activity.id.length < 1) {
@@ -30,7 +31,7 @@ const VisualizationPage = () => {
         activity.id,
         setFish,
         setFileData,
-        (_: number) => {},
+        setCount,
       ).then(() => {
         setLoading(false);
       });
@@ -59,10 +60,12 @@ const VisualizationPage = () => {
       <SvgAnimation
         fileData={fileData}
         title="Annimated Fish Movement With Full Data"
+        count={count}
       />
       <SvgAnimation
         fileData={{ ...fileData, data: displayData } as FileDataStructure}
         title="Annimated Fish Movement With Segmente"
+        count={count}
       />
     </>
   );
