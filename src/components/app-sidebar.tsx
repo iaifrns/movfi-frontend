@@ -19,6 +19,7 @@ import {
   analysis,
   detailActivity,
   fileData,
+  generatepdf,
   visualization,
 } from "@/constant/routs";
 import { dataContext } from "@/hooks/useContext";
@@ -32,6 +33,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useLocation } from "react-router";
+import Upload2Icon from "@/assets/icons/upload2";
 
 const routerConfig = {
   "/": {
@@ -151,9 +153,9 @@ const data = {
   ],
   documents: [
     {
-      name: "Fish Data File",
-      url: fileData,
-      icon: <FileChartColumnIcon />,
+      name: "Download/export of analysis results",
+      url: generatepdf,
+      icon: <Upload2Icon />,
     },
   ],
 };

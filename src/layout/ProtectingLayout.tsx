@@ -18,6 +18,8 @@ const ProtectingLayout = () => {
         navigate(quickStart);
       }
 
+      console.log(data)
+
       setActivities(data);
       const selectedActivity = localStorage.getItem(activityKey);
       if (

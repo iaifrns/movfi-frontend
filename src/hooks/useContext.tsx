@@ -7,7 +7,6 @@ interface ContextType {
   fish: {
     id: string;
     name: string;
-    note: string;
     behavior: string;
     weight: number;
     length: number;
@@ -17,6 +16,12 @@ interface ContextType {
       path: string;
       fullPath: string;
     } | null;
+    fps?: number;
+    duration?: number;
+    body_points?: number;
+    max_amplitude?: number;
+    tail_beat_frequency?: number;
+    wave_length?: number;
   };
   setActivity: (_: ActivityResponse) => void;
   setFish: (_: any) => void;
@@ -31,7 +36,6 @@ export const dataContext = createContext<ContextType>({
   fish: {
     id: "",
     name: "",
-    note: "",
     behavior: "",
     weight: 0,
     length: 0,

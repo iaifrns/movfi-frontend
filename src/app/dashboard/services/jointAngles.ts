@@ -62,6 +62,6 @@ export const getJointAngles = (
       angles[frame].push(angle);
     }
   }
-
+  
   return angles;
 };

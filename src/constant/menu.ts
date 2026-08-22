@@ -1,10 +1,9 @@
 import {
-    ChartBarIcon,
-    FileChartColumnIcon,
-    FolderIcon,
-    LayoutDashboardIcon,
-    ListIcon,
-    UsersIcon
+  ChartBarIcon,
+  FileChartColumnIcon,
+  FolderIcon,
+  LayoutDashboardIcon,
+  ListIcon
 } from "lucide-react";
 import { activityList, analysis, fileData, visualization } from "./routs";
 export const Menu = {

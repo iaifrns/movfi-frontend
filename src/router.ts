@@ -1,21 +1,23 @@
 import { createBrowserRouter } from "react-router";
+import ActivityList from "./app/activity/ActivityList";
+import DetailActivity from "./app/activity/DetailActivity";
+import AnalysisPage from "./app/analysis";
 import Dashboard from "./app/dashboard/dashboard";
+import FileData from "./app/fileData";
 import QuickCreatePage from "./app/quikeStart";
-import ProtectingLayout from "./layout/ProtectingLayout";
+import VisualizationPage from "./app/visualization";
 import {
   activityList,
   analysis,
   detailActivity,
   fileData,
+  generatepdf,
   quickStart,
   visualization,
 } from "./constant/routs";
 import DashboardLayout from "./layout/DashboardLayout";
-import ActivityList from "./app/activity/ActivityList";
-import DetailActivity from "./app/activity/DetailActivity";
-import FileData from "./app/fileData";
-import VisualizationPage from "./app/visualization";
-import AnalysisPage from "./app/analysis";
+import ProtectingLayout from "./layout/ProtectingLayout";
+import GeneratePDF from "./app/generatePdf";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,7 @@ const router = createBrowserRouter([
           { path: fileData, Component: FileData },
           { path: visualization, Component: VisualizationPage },
           { path: analysis, Component: AnalysisPage },
+          { path: generatepdf, Component: GeneratePDF },
         ],
       },
       {
