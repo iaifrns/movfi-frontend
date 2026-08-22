@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import FishIcon from "@/assets/icons/fish";
+import Upload2Icon from "@/assets/icons/upload2";
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -18,22 +19,19 @@ import { navMain } from "@/constant/menu";
 import {
   analysis,
   detailActivity,
-  fileData,
   generatepdf,
-  visualization,
+  visualization
 } from "@/constant/routs";
 import { dataContext } from "@/hooks/useContext";
 import {
   CameraIcon,
   CircleHelpIcon,
-  FileChartColumnIcon,
   FileTextIcon,
   SearchIcon,
   Settings2Icon,
-  type LucideIcon,
+  type LucideIcon
 } from "lucide-react";
 import { useLocation } from "react-router";
-import Upload2Icon from "@/assets/icons/upload2";
 
 const routerConfig = {
   "/": {

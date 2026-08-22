@@ -7,7 +7,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { fileData } from "@/constant/routs";
+import { generatepdf } from "@/constant/routs";
 import { useLocation } from "react-router";
 
 export function NavDocuments({
@@ -28,7 +28,7 @@ export function NavDocuments({
         {items.map((item) => (
           <SidebarMenuItem
             key={item.name}
-            className={`${pathname == fileData && "min-w-8 rounded-md bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"}`}
+            className={`${pathname == generatepdf && "min-w-8 rounded-md bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"}`}
           >
             <SidebarMenuButton render={<a href={item.url} />}>
               {item.icon}
