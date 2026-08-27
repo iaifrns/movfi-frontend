@@ -8,7 +8,7 @@ import {
 import { Menu } from "@/constant/menu";
 import { quickStart } from "@/constant/routs";
 import { CirclePlusIcon, type LucideIcon } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export function NavMain({
   items,
@@ -17,10 +17,10 @@ export function NavMain({
     title: string;
     url: string;
     icon?: LucideIcon;
-    active?: boolean;
   }[];
 }) {
   const navigate = useNavigate();
+  const {pathname} = useLocation()
 
   return (
     <SidebarGroup>
@@ -43,7 +43,7 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem
               key={item.title}
-              className={`${item.active && "min-w-8 rounded-md bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"}`}
+              className={`${item.url == pathname && "min-w-8 rounded-md bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"}`}
             >
               <SidebarMenuButton tooltip={item.title} onClick={()=>navigate(item.url)}>
                 {item.icon && <item.icon />}
