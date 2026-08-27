@@ -4,7 +4,6 @@ import FishIcon from "@/assets/icons/fish";
 import Upload2Icon from "@/assets/icons/upload2";
 import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
-import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -25,10 +24,7 @@ import {
 import { dataContext } from "@/hooks/useContext";
 import {
   CameraIcon,
-  CircleHelpIcon,
   FileTextIcon,
-  SearchIcon,
-  Settings2Icon,
   type LucideIcon
 } from "lucide-react";
 import { useLocation } from "react-router";
