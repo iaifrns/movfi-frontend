@@ -21,6 +21,7 @@ export const createFish = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify(fish),
+      credentials: "include",
     });
 
     const data = await response.json();

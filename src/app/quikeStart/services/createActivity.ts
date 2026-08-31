@@ -11,6 +11,7 @@ export const createActivity = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify(activity),
+      credentials: "include",
     });
 
     const data = await response.json();

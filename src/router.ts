@@ -12,12 +12,16 @@ import {
   detailActivity,
   fileData,
   generatepdf,
+  login,
   quickStart,
+  register,
   visualization,
 } from "./constant/routs";
 import DashboardLayout from "./layout/DashboardLayout";
 import ProtectingLayout from "./layout/ProtectingLayout";
 import GeneratePDF from "./app/generatePdf";
+import RegistrationPage from "./app/authentification/Register";
+import LoginPage from "./app/authentification/Login";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +46,14 @@ const router = createBrowserRouter([
         Component: QuickCreatePage,
       },
     ],
+  },
+  {
+    path: register,
+    Component: RegistrationPage,
+  },
+  {
+    path: login,
+    Component: LoginPage,
   },
 ]);
 

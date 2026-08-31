@@ -1,8 +1,14 @@
-import { allFramesJointPointsUrl, framesJointPointsUrl } from "@/constant/endpoints";
+import {
+  allFramesJointPointsUrl,
+  framesJointPointsUrl,
+} from "@/constant/endpoints";
 
 export const getEachFrameJointPoint = async (fishId: string) => {
   try {
-    const response = await fetch(framesJointPointsUrl + fishId);
+    const response = await fetch(framesJointPointsUrl + fishId, {
+      method: "GET",
+      credentials: "include",
+    });
 
     const data = await response.json();
 
@@ -14,13 +20,16 @@ export const getEachFrameJointPoint = async (fishId: string) => {
 };
 
 export const getGeneralJointPoint = async (fishId: string) => {
-    try{
-        const response = await fetch(allFramesJointPointsUrl+fishId)
-        const data = await response.json()
-        
-        return data
-    }catch(e){
-        console.log(e, "this is 21445")
-        return null
-    }
-}
+  try {
+    const response = await fetch(allFramesJointPointsUrl + fishId, {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (e) {
+    console.log(e, "this is 21445");
+    return null;
+  }
+};

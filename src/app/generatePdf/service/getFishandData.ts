@@ -1,5 +1,5 @@
 import type { Fish } from "@/app/quikeStart";
-import { getAllFileDataByFish, getFileDataByFish } from "@/service/getFileDataByFish";
+import { getAllFileDataByFish } from "@/service/getFileDataByFish";
 import { getFishByActivity } from "@/service/getFishsByActivity";
 import type { FileDataStructure } from "@/types/fish";
 

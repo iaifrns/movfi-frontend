@@ -1,12 +1,18 @@
 import { getActivitiesUrl, postActiveUrl } from "@/constant/endpoints";
 import type { ActivityResponse } from "@/types/activity";
 
-export const getActivities = async (setLoading: (v: boolean) => void, setData:(v:ActivityResponse[])=>void) => {
+export const getActivities = async (
+  setLoading: (v: boolean) => void,
+  setData: (v: ActivityResponse[]) => void,
+) => {
   try {
     setLoading(true);
-    const response = await fetch(getActivitiesUrl);
+    const response = await fetch(getActivitiesUrl, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = await response.json();
-    setData(data)
+    setData(data);
   } catch (e) {
     console.log(e);
   } finally {
@@ -14,14 +20,23 @@ export const getActivities = async (setLoading: (v: boolean) => void, setData:(v
   }
 };
 
-export const getOneActivityById = async (activityId: string, setActivity:(v:ActivityResponse)=>void) => {
-    try{
-        const response = await fetch(postActiveUrl+`/get_activity_by_id/${activityId}`)
+export const getOneActivityById = async (
+  activityId: string,
+  setActivity: (v: ActivityResponse) => void,
+) => {
+  try {
+    const response = await fetch(
+      postActiveUrl + `/get_activity_by_id/${activityId}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
 
-        const data = await response.json()
+    const data = await response.json();
 
-        setActivity(data)
-    }catch(e){
-        console.log(e)
-    }
-}
+    setActivity(data);
+  } catch (e) {
+    console.log(e);
+  }
+};

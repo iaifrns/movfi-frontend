@@ -195,6 +195,7 @@ const quickStartEndPoint = async (
         fish: { ...bodyData.fish, file: file, activity_id: "0" },
         file_data: { ...bodyData.file_data, fish_id: "" },
       }),
+      credentials: "include",
     });
 
     const data = await response.json();
@@ -220,6 +221,7 @@ const quickStartEndPoint2 = async (bodyData: {
         activity: { ...bodyData.activity, user_id: 1 },
         fish: { ...bodyData.fish, activity_id: "0" },
       }),
+      credentials: "include",
     });
 
     const data = await response.json();

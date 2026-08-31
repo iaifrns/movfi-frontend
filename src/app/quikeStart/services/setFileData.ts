@@ -18,6 +18,7 @@ export const setFileData = async (
         data: fileData,
         fish_id: fishId,
       }),
+      credentials: "include",
     });
 
     const data = await response.json();

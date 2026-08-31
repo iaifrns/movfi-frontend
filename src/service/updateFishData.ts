@@ -13,6 +13,7 @@ export const updateFishData = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify(fish),
+      credentials: "include",
     });
 
     const data = await response.json();
