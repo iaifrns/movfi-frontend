@@ -1,5 +1,6 @@
 import type { ActivityResponse } from "@/types/activity";
 import type { FileDataStructure } from "@/types/fish";
+import type { User } from "@/types/user";
 import { createContext, useState, type ReactNode } from "react";
 
 interface ContextType {
@@ -29,6 +30,8 @@ interface ContextType {
   setFileData: (_: null | FileDataStructure) => void;
   count: number;
   setCount: (_: number) => void;
+  user: User,
+  setUser: (_:User) => void
 }
 
 export const dataContext = createContext<ContextType>({
@@ -48,6 +51,8 @@ export const dataContext = createContext<ContextType>({
   setFileData: (_: any) => {},
   count: 0,
   setCount: (_: number) => {},
+  user: {id: "", name: "", email: ""},
+  setUser: (_:User) => {}
 });
 
 const DataProvider = ({ children }: { children: ReactNode }) => {
@@ -73,6 +78,8 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
 
   const [count, setCount] = useState(0);
 
+  const [user, setUser] = useState<User>({id: "", name: "", email: ""})
+
   return (
     <dataContext.Provider
       value={{
@@ -84,6 +91,8 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
         setFileData,
         count,
         setCount,
+        user,
+        setUser
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 import { activityKey } from "@/constant/localStorage";
-import { quickStart } from "@/constant/routs";
+import { login, quickStart } from "@/constant/routs";
 import { dataContext } from "@/hooks/useContext";
-import { getActivity } from "@/service/checkActivity";
+import { pageProtection } from "@/service/pageProtection";
 import { useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 
@@ -10,10 +10,21 @@ const ProtectingLayout = () => {
   const [activities, setActivities] = useState([]);
 
   const navigate = useNavigate();
-  const { setActivity } = useContext(dataContext);
+  const { setActivity, setUser } = useContext(dataContext);
+
+  const goToLogin = () => navigate(login);
 
   useEffect(() => {
-    getActivity(setLoading).then((data) => {
+    pageProtection(
+      goToLogin,
+      setUser,
+      setLoading,
+      activityKey,
+      setActivities,
+      () => navigate(quickStart),
+      setActivity
+    );
+    /* getActivity(setLoading).then((data) => {
       if (data.length == 0) {
         navigate(quickStart);
       }
@@ -29,7 +40,7 @@ const ProtectingLayout = () => {
         localStorage.setItem(activityKey, data[0].id)
         setActivity(data[0]);
       }
-    });
+    }); */
   }, []);
 
   if (loading && activities.length == 0) {

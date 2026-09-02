@@ -2,8 +2,11 @@ import { createBrowserRouter } from "react-router";
 import ActivityList from "./app/activity/ActivityList";
 import DetailActivity from "./app/activity/DetailActivity";
 import AnalysisPage from "./app/analysis";
+import LoginPage from "./app/authentification/Login";
+import RegistrationPage from "./app/authentification/Register";
 import Dashboard from "./app/dashboard/dashboard";
 import FileData from "./app/fileData";
+import GeneratePDF from "./app/generatePdf";
 import QuickCreatePage from "./app/quikeStart";
 import VisualizationPage from "./app/visualization";
 import {
@@ -12,16 +15,12 @@ import {
   detailActivity,
   fileData,
   generatepdf,
-  login,
   quickStart,
-  register,
-  visualization,
+  visualization
 } from "./constant/routs";
+import AuthLayout from "./layout/AuthLayout";
 import DashboardLayout from "./layout/DashboardLayout";
 import ProtectingLayout from "./layout/ProtectingLayout";
-import GeneratePDF from "./app/generatePdf";
-import RegistrationPage from "./app/authentification/Register";
-import LoginPage from "./app/authentification/Login";
 
 const router = createBrowserRouter([
   {
@@ -48,12 +47,18 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: register,
-    Component: RegistrationPage,
-  },
-  {
-    path: login,
-    Component: LoginPage,
+    path: "/auth",
+    Component: AuthLayout,
+    children: [
+      {
+        path: 'register',
+        Component: RegistrationPage,
+      },
+      {
+        path: 'login',
+        Component: LoginPage,
+      },
+    ],
   },
 ]);
 
