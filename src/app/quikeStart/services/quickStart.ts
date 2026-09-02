@@ -179,19 +179,20 @@ const checkXYStructure = (headers: string[]): boolean => {
 const quickStartEndPoint = async (
   bodyData: {
     fish: Fish;
-    activity: { name: string; description: string };
+    activity: { name: string; description: string, user_id: string };
     file_data: { file_name: string; data: FishData[] };
   },
   file: any,
 ) => {
   try {
+    console.log(bodyData.activity)
     const response = await fetch(quickSetupUrl, {
       method: "Post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        activity: { ...bodyData.activity, user_id: 1 },
+        activity: { ...bodyData.activity},
         fish: { ...bodyData.fish, file: file, activity_id: "0" },
         file_data: { ...bodyData.file_data, fish_id: "" },
       }),
@@ -208,7 +209,7 @@ const quickStartEndPoint = async (
 
 const quickStartEndPoint2 = async (bodyData: {
   fish: Fish;
-  activity: { name: string; description: string };
+  activity: { name: string; description: string, user_id: string };
 }) => {
   console.log("it is on the api call")
   try {
@@ -218,7 +219,7 @@ const quickStartEndPoint2 = async (bodyData: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        activity: { ...bodyData.activity, user_id: 1 },
+        activity: { ...bodyData.activity },
         fish: { ...bodyData.fish, activity_id: "0" },
       }),
       credentials: "include",
@@ -238,9 +239,10 @@ export const quickStart = async (
   extraData: File | SimulatedData,
   setProgress: (v: string) => void,
   setData: (active: any, fish: any, fileData: any) => void,
+  userId: string
 ) => {
   let data = {
-    activity: { id: "", name: "", user_id: 1 },
+    activity: { id: "", name: "", user_id: userId },
     fish: undefined,
   };
 
@@ -289,7 +291,7 @@ export const quickStart = async (
                 tail_beat_frequency: fish.tail_beat_frequency || 0,
                 wave_length: fish.wave_length || 0,
               },
-              activity: active,
+              activity: {...active, user_id: userId},
               file_data: { file_name: file.name, data: result.data },
             },
             response,
@@ -328,7 +330,7 @@ export const quickStart = async (
         tail_beat_frequency: fish.tail_beat_frequency || 2,
         wave_length: fish.wave_length || 1.2,
       },
-      activity: active,
+      activity: {...active, user_id: userId},
     });
 
     if (responseData.activity) {

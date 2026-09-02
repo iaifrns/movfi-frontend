@@ -64,13 +64,14 @@ const QuickCreatePage = () => {
       data,
       (v) => setProcessList([...processList, v]),
       handleValidation,
+      user.id
     ).then(() => {
       setProcessing(false);
       setProcessList(["Processing Creation of activity ..."]);
     });
   };
 
-  const { setActivity, setFish, setFileData } = useContext(dataContext);
+  const { setActivity, setFish, setFileData, user } = useContext(dataContext);
 
   const handleValidation = (active: any, fish: any, fileData: any) => {
     setActivity(active);
