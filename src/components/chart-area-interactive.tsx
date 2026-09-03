@@ -90,17 +90,6 @@ export function ChartAreaInteractive({
     }
   }, [page]);
 
-  /* const handleGetEachFrameJoint = () => {
-    setIsGraphLoading(true);
-    reArrangeData(
-      fishId,
-      displayData,
-      setDisplayData,
-      joinDatas,
-      setJointDatas,
-    ).then(() => setIsGraphLoading(false));
-  }; */
-
   const handleUseJointPoint = () => {
     setIsGraphLoading(true);
     selectData(fishId, setDisplayData, displayData, joints, setJoints).then(
