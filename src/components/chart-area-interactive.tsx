@@ -20,13 +20,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { generateDistinctColors } from "@/service/generateColors";
 import { getPaginatedData } from "@/service/getPaginatedData";
@@ -53,14 +47,14 @@ export function ChartAreaInteractive({
   count,
   fileId,
   joints,
-  setJoints
+  setJoints,
 }: {
   fileData: Record<string, any>[];
   fishId: string;
   count: number;
   fileId: string;
   joints: [];
-  setJoints: (_:[]) => void
+  setJoints: (_: []) => void;
 }) {
   const [timeRange, setTimeRange] = React.useState("90d");
   const [axises, setAxises] = React.useState<{
@@ -109,13 +103,9 @@ export function ChartAreaInteractive({
 
   const handleUseJointPoint = () => {
     setIsGraphLoading(true);
-    selectData(
-      fishId,
-      setDisplayData,
-      displayData,
-      joints,
-      setJoints,
-    ).then(() => setIsGraphLoading(false));
+    selectData(fishId, setDisplayData, displayData, joints, setJoints).then(
+      () => setIsGraphLoading(false),
+    );
   };
 
   return (
