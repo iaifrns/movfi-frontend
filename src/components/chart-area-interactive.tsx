@@ -52,11 +52,15 @@ export function ChartAreaInteractive({
   fishId,
   count,
   fileId,
+  joints,
+  setJoints
 }: {
   fileData: Record<string, any>[];
   fishId: string;
   count: number;
   fileId: string;
+  joints: [];
+  setJoints: (_:[]) => void
 }) {
   const [timeRange, setTimeRange] = React.useState("90d");
   const [axises, setAxises] = React.useState<{
@@ -70,8 +74,6 @@ export function ChartAreaInteractive({
   const [isGraphLoading, setIsGraphLoading] = React.useState(false);
   const [copyData, setCopyData] = React.useState(fileData);
   const [displayData, setDisplayData] = React.useState(fileData);
-  /* const [joinDatas, setJointDatas] = React.useState({}); */
-  const [allJoinPoints, setAllJointPoints] = React.useState<[]>([]);
   const [page, setPage] = React.useState(1);
   const [isFirstTime, setIsFirstTime] = React.useState(true);
 
@@ -111,20 +113,19 @@ export function ChartAreaInteractive({
       fishId,
       setDisplayData,
       displayData,
-      allJoinPoints,
-      setAllJointPoints,
+      joints,
+      setJoints,
     ).then(() => setIsGraphLoading(false));
   };
 
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Total Visitors</CardTitle>
+        <CardTitle>Fish kinematic movement</CardTitle>
         <CardDescription>
           <span className="hidden @[540px]/card:block">
-            Total for the last 3 months
+            Fish movement accross frames
           </span>
-          <span className="@[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
         <CardAction>
           <ToggleGroup
@@ -156,26 +157,7 @@ export function ChartAreaInteractive({
                 setTimeRange(value);
               }
             }}
-          >
-            <SelectTrigger
-              className="flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[767px]/card:hidden"
-              size="sm"
-              aria-label="Select a value"
-            >
-              <SelectValue placeholder="Last 3 months" />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl">
-              <SelectItem value="90d" className="rounded-lg">
-                Last 3 months
-              </SelectItem>
-              <SelectItem value="30d" className="rounded-lg">
-                Last 30 days
-              </SelectItem>
-              <SelectItem value="7d" className="rounded-lg">
-                Last 7 days
-              </SelectItem>
-            </SelectContent>
-          </Select>
+          ></Select>
         </CardAction>
       </CardHeader>
       {isGraphLoading && (
@@ -184,7 +166,9 @@ export function ChartAreaInteractive({
           <p className="animate-pulse font-semibold">Loading ...</p>
         </div>
       )}
-      <p className="px-6 text-end">1-10 on {count}</p>
+      <p className="px-6 text-end">
+        {1 + (page - 1) * 10}-{10 * page} on {count}
+      </p>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}

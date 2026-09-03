@@ -13,7 +13,11 @@ const AuthLayout = () => {
     verifyToken().then((data) => {
         console.log(data, "this is the data from auth verification")
         setLoading(false)
-        if(data.id) navigate(Dashboard)
+        if(data != null){
+          console.log("what the fuck")
+          navigate(Dashboard)}else{
+            console.log('what is going to the dashboard then')
+          }
     });
   }, []);
 

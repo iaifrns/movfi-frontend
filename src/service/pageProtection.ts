@@ -24,14 +24,17 @@ export const pageProtection = async (
   setLoading: (_: boolean) => void,
   activityKey: string,
   setActivities: (_: []) => void,
-  navQuick: ()=>void,
-  setActivity: (_:ActivityResponse) => void
+  navQuick: () => void,
+  setActivity: (_: ActivityResponse) => void,
 ) => {
   const user = await verifyToken();
 
-  console.log(user)
+  console.log(user);
 
-  if (!user) goToLogin(login);
+  if (!user) {
+    goToLogin(login);
+    return;
+  }
 
   setUser(user);
 

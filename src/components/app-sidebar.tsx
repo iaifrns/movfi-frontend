@@ -137,7 +137,7 @@ const data = {
   ],
 };
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { activity } = React.useContext(dataContext);
+  const { activity, user } = React.useContext(dataContext);
 
   const location = useLocation();
 
@@ -174,7 +174,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavDocuments items={data.documents} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={{ ...data.user, activity: activity.name }} />
+        <NavUser user={{ ...data.user, activity: activity.name, name: user.name }} />
       </SidebarFooter>
     </Sidebar>
   );

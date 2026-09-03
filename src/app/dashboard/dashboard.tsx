@@ -41,8 +41,9 @@ export default function Dashaboard() {
   const [jointPoints, setJointPoints] = useState<[]>([]);
   const [seg_length, setSeg_length] = useState(0);
   const [tailAmplitude, setTailAmplitude] = useState(0);
+  const [swimSpeed, setSwimSpeed] = useState(0)
 
-  const { activity, setActivity, fileData, setFileData, fish, setFish, count, setCount } =
+  const { activity, setActivity, fileData, setFileData, fish, setFish, count, setCount, joints, setJoints } =
     useContext(dataContext);
 
   useEffect(() => {
@@ -59,15 +60,16 @@ export default function Dashaboard() {
 
   const handleJointsSegments = (result: any) => {
     setJointPoints(result.joints);
+    setJoints(result.joints);
     setSeg_length(result.segementation_length);
     setTailAmplitude(result.tail_amplitude);
+    setSwimSpeed(result.swimming_speed)
   };
 
   useEffect(() => {
     const selectedActive = localStorage.getItem(activityKey)
     if (activity.id.length > 3 && activity.id.includes(selectedActive || '')) {
       setLoading(true);
-      console.log(fish.id ? fish.id : "there is no fish id")
       checkFishFileDataAndJointPoints(
         fish.id,
         activity.id,
@@ -89,9 +91,9 @@ export default function Dashaboard() {
     <>
       <SectionCards
         jointPoints={jointPoints}
-        data={fileData?.data}
         seg_length={seg_length}
         tailAmplitude={tailAmplitude}
+        swimSpeed= {swimSpeed}
       />
       <div className="px-4 lg:px-6">
         <ChartAreaInteractive
@@ -99,6 +101,8 @@ export default function Dashaboard() {
           fishId={fish.id}
           count={count}
           fileId={fileData?.id ?? ""}
+          joints = {joints}
+          setJoints={setJoints}
         />
       </div>
       <SvgAnimation

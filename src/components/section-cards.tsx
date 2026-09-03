@@ -1,7 +1,5 @@
 "use client";
 
-import { swimmingSpeed } from "@/app/dashboard/services/swimmingSpeed";
-import { getTailBeatAmplitude } from "@/app/dashboard/services/tailBeatAmplitude";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -16,13 +14,13 @@ import { TrendingUpIcon } from "lucide-react";
 export function SectionCards({
   jointPoints,
   seg_length,
-  data,
   tailAmplitude,
+  swimSpeed,
 }: {
   jointPoints: [];
   seg_length: number;
-  data?: Record<string, any>[];
-  tailAmplitude: number
+  tailAmplitude: number;
+  swimSpeed: number;
 }) {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-3 dark:*:data-[slot=card]:bg-card">
@@ -70,7 +68,7 @@ export function SectionCards({
         <CardHeader>
           <CardDescription>Swimming speed</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            {data ? swimmingSpeed(data[0]) : 0} BL/s
+            {swimSpeed ? swimSpeed : 0} BL/s
           </CardTitle>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm h-full">

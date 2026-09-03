@@ -31,7 +31,9 @@ interface ContextType {
   count: number;
   setCount: (_: number) => void;
   user: User,
-  setUser: (_:User) => void
+  setUser: (_:User) => void,
+  joints: [],
+  setJoints: (_:[]) => void
 }
 
 export const dataContext = createContext<ContextType>({
@@ -52,7 +54,9 @@ export const dataContext = createContext<ContextType>({
   count: 0,
   setCount: (_: number) => {},
   user: {id: "", name: "", email: ""},
-  setUser: (_:User) => {}
+  setUser: (_:User) => {},
+  joints: [],
+  setJoints: (_:[]) => {}
 });
 
 const DataProvider = ({ children }: { children: ReactNode }) => {
@@ -80,6 +84,8 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
 
   const [user, setUser] = useState<User>({id: "", name: "", email: ""})
 
+  const [joints, setJoints] = useState<[]>([])
+
   return (
     <dataContext.Provider
       value={{
@@ -92,7 +98,9 @@ const DataProvider = ({ children }: { children: ReactNode }) => {
         count,
         setCount,
         user,
-        setUser
+        setUser,
+        joints,
+        setJoints
       }}
     >
       {children}
